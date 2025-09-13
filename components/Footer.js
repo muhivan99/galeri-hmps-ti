@@ -6,14 +6,15 @@ export default function Footer(){
     <footer id="kontak" className="border-t border-white/10 py-12">
       <div className="container mx-auto px-4 grid md:grid-cols-3 gap-6">
         <div>
-          <div className="font-semibold mb-2 neon-text">Komunitas Aksi Pentur</div>
+          <div className="font-semibold mb-2 neon-text">HMPS Teknik Informatika</div>
           <p className="text-slate-400 text-sm">Kolaborasi, donasi, atau liputan kegiatan? Kirim pesan melalui formulir.</p>
         </div>
         <div className="text-slate-300 text-sm">
           <div className="font-medium text-white/90 mb-2">Kontak</div>
-          <div>Email: komunitas@contoh.org</div>
-          <div>Instagram: @komunitas.pentur</div>
-          <div>Alamat: Pentur, RT 15 / RW 02</div>
+          <div>Email: hmjtiunwidha@gmail.com</div>
+          <div>@hmpsti.unwidha ( Instagram) ( TikTok ) ( Facebook ) ( Linktree )</div>
+          <div>Alamat : Jalan Ki Hajar Dewantara, Desa Karanganom, 
+          Kecamatan Klaten Utara, Kabupaten Klaten, Jawa Tengah.</div>
         </div>
         <ContactForm />
       </div>
