@@ -5,18 +5,23 @@
       "desc": "Humas, media & informasi publik.",
       "members": [
         {
-          "name": "Sinta Karina",
-          "role": "Koordinator",
+          "name": "Lydia Putri",
+          "role": "Ketua Divisi",
           "photo": "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Ardi Nugraha",
-          "role": "Desainer",
+          "name": "Davin Indra",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1504593811423-6dd665756598?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Rika Melati",
-          "role": "Content",
+          "name": "Deni Aji",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1504593811423-6dd665756598?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Dimas",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop"
         }
       ]
@@ -26,13 +31,28 @@
       "desc": "Pelatihan skill & pengembangan kapasitas.",
       "members": [
         {
-          "name": "Andi Maulana",
-          "role": "Koordinator",
+          "name": "Muhammad Ivan",
+          "role": "Ketua Divisi",
           "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Dewi Lestari",
-          "role": "Instruktur",
+          "name": "Sajid",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Salim",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Lydia G",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Tsalasa Dzikri",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
         }
       ]
@@ -42,13 +62,28 @@
       "desc": "Rekrutmen, kader & penguatan organisasi.",
       "members": [
         {
-          "name": "Fahri Ramadhan",
-          "role": "Koordinator",
+          "name": "Arya",
+          "role": "Ketua Divisi",
           "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Putri Ayu",
-          "role": "Anggota",
+          "name": "Ilham",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Fiqo",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Firza",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Agil Tino",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop"
         }
       ]
@@ -58,18 +93,28 @@
       "desc": "Kegiatan sosial, keagamaan & kemasyarakatan.",
       "members": [
         {
-          "name": "Hana Zahra",
-          "role": "Koordinator",
+          "name": "Yunan",
+          "role": "Ketua Divisi",
           "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Rifky Naufal",
-          "role": "Anggota",
+          "name": "Hanifah",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Sari Wulandari",
-          "role": "Anggota",
+          "name": "Arkhan",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Anas",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Agil Hidayah",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?q=80&w=800&auto=format&fit=crop"
         }
       ]
@@ -79,13 +124,23 @@
       "desc": "Administrasi, arsip & surat-menyurat.",
       "members": [
         {
-          "name": "Rani Safitri",
-          "role": "Koordinator",
+          "name": "Valen",
+          "role": "Ketua Divisi",
           "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
         },
         {
-          "name": "Yoga Saputra",
-          "role": "Anggota",
+          "name": "Shalsa",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Ria",
+          "role": "Anggota Divisi",
+          "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Naufal",
+          "role": "Anggota Divisi",
           "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop"
         }
       ]
