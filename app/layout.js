@@ -1,11 +1,11 @@
 export const metadata = {
-  title: 'Komunitas Aksi Pentur — Galeri & Struktur',
-  description: 'Dokumentasi kegiatan warga, struktur pengurus, dan divisi organisasi. Bernuansa futuristik neon glow.',
+  title: 'Galeri HMPS-TI',
+  description: 'Dokumentasi kegiatan warga, struktur pengurus, dan divisi organisasi',
   openGraph: {
-    title: 'Komunitas Aksi Pentur',
+    title: 'HMPS Teknik Informatika',
     description: 'Galeri kegiatan & struktur organisasi',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com',
-    siteName: 'Komunitas Aksi Pentur',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://galerihmpsti.com',
+    siteName: 'HMPS Teknik Informatika',
     images: [{ url: '/og.png', width: 1200, height: 630 }],
     locale: 'id_ID', type: 'website'
   },
