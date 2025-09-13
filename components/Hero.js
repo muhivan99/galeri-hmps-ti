@@ -6,10 +6,10 @@ export default function Hero({ stats }){
       <ParallaxLayers />
       <div className="container mx-auto px-4 py-24">
         <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-white">
-          <span className="neon-text">Galeri Kegiatan & Struktur</span><br/>
-          <span className="text-slate-300">Dari warga, untuk warga — bergerak nyata.</span>
+          <span className="neon-text">Galeri Kegiatan & Struktur Organisasi</span><br/>
+          <span className="text-slate-300">Dari Mahasiswa, untuk warga bergerak nyata.</span>
         </h1>
-        <p className="max-w-2xl mt-4 text-slate-300/90">Neon glow makin basah, parallax lembut, partikel interaktif. SSG + CMS tetap kencang.</p>
+        <p className="max-w-2xl mt-4 text-slate-300/90">Di sini, setiap ide dihargai, setiap algoritma diperdebatkan, dan setiap solusi diciptakan bersama.</p>
         <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Stat label="Kegiatan" value={stats.kegiatan} />
           <Stat label="Pengurus Inti" value={stats.pengurus} />
