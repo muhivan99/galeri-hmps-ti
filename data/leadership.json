@@ -3,32 +3,32 @@
     {
       "role": "Bupati",
       "name": "Bona",
-      "photo": "https://drive.google.com/file/d/1X-EWnG5ty9UURywHjYI2VEBezR4puozT/view?usp=drive_link&w=800&auto=format&fit=crop"
+      "photo": "/members/BONA.jpg"
     },
     {
       "role": "Wakil Bupati",
       "name": "Rifkhan",
-      "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+      "photo": "/members/NONAME.png"
     },
     {
       "role": "Sekretaris",
       "name": "Nessa",
-      "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+      "photo": "/members/NESSA.jpg"
     },
     {
       "role": "Sekretaris",
       "name": "Riski Eka",
-      "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+      "photo": "/members/NONAME.png"
     },
     {
       "role": "Bendahara",
       "name": "Ika",
-      "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+      "photo": "/members/IKA.jpg"
     },
     {
       "role": "Bendahara",
       "name": "Fadhil",
-      "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
+      "photo": "/members/NONAME.png"
     }
   ]
 }
