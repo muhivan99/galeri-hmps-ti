@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* THEME VARS */
+:root {
+  --bg:#070814;
+  --neon1:#f0abfc; --neon2:#67e8f9; --neon3:#60a5fa;
+}
+[data-theme="aurora"] { --neon1:#f0abfc; --neon2:#67e8f9; --neon3:#60a5fa; }
+[data-theme="limesky"] { --neon1:#bef264; --neon2:#38bdf8; --neon3:#22d3ee; }
+[data-theme="sunset"] { --neon1:#fb7185; --neon2:#f59e0b; --neon3:#f97316; }
+
+body { background: var(--bg); }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Skip link */
+.skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip-link:focus { left: 1rem; top: 1rem; width:auto; height:auto; padding:.5rem .75rem; background:#111827; color:white; border-radius:.5rem; z-index:50; }
+
+/* Neon */
+.neon-text{
+  background: linear-gradient(90deg,var(--neon1),var(--neon2),var(--neon3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.neon-ring{ box-shadow:0 0 40px var(--neon1),0 0 80px var(--neon2) }
+.card-glow{ background:rgba(255,255,255,.05); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.1); box-shadow:0 0 30px #7c3aed55,0 0 60px #06b6d455 }
+
+/* Skeleton */
+.skeleton { position:relative; overflow:hidden; background: rgba(255,255,255,0.06); }
+.skeleton::after{
+  content:""; position:absolute; inset:0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }

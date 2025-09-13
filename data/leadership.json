@@ -1,0 +1,24 @@
+{
+  "leadership": [
+    {
+      "role": "Bupati",
+      "name": "Rangga Prasetyo",
+      "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      "role": "Wakil Bupati",
+      "name": "Aulia Rahman",
+      "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      "role": "Sekretaris",
+      "name": "Nabila Putri",
+      "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      "role": "Bendahara",
+      "name": "Dimas Wicaksono",
+      "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
+    }
+  ]
+}

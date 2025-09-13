@@ -1,0 +1,94 @@
+{
+  "divisions": [
+    {
+      "name": "Divisi Humedfo",
+      "desc": "Humas, media & informasi publik.",
+      "members": [
+        {
+          "name": "Sinta Karina",
+          "role": "Koordinator",
+          "photo": "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Ardi Nugraha",
+          "role": "Desainer",
+          "photo": "https://images.unsplash.com/photo-1504593811423-6dd665756598?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Rika Melati",
+          "role": "Content",
+          "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop"
+        }
+      ]
+    },
+    {
+      "name": "Divisi Keahlian",
+      "desc": "Pelatihan skill & pengembangan kapasitas.",
+      "members": [
+        {
+          "name": "Andi Maulana",
+          "role": "Koordinator",
+          "photo": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Dewi Lestari",
+          "role": "Instruktur",
+          "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+        }
+      ]
+    },
+    {
+      "name": "Divisi Kaderisasi",
+      "desc": "Rekrutmen, kader & penguatan organisasi.",
+      "members": [
+        {
+          "name": "Fahri Ramadhan",
+          "role": "Koordinator",
+          "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Putri Ayu",
+          "role": "Anggota",
+          "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop"
+        }
+      ]
+    },
+    {
+      "name": "Divisi Sosial Agama",
+      "desc": "Kegiatan sosial, keagamaan & kemasyarakatan.",
+      "members": [
+        {
+          "name": "Hana Zahra",
+          "role": "Koordinator",
+          "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Rifky Naufal",
+          "role": "Anggota",
+          "photo": "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Sari Wulandari",
+          "role": "Anggota",
+          "photo": "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?q=80&w=800&auto=format&fit=crop"
+        }
+      ]
+    },
+    {
+      "name": "Divisi Kesekretariatan",
+      "desc": "Administrasi, arsip & surat-menyurat.",
+      "members": [
+        {
+          "name": "Rani Safitri",
+          "role": "Koordinator",
+          "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          "name": "Yoga Saputra",
+          "role": "Anggota",
+          "photo": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop"
+        }
+      ]
+    }
+  ]
+}
