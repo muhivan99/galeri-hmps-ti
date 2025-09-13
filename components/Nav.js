@@ -26,7 +26,7 @@ export default function Nav(){
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl bg-[#070814]/70">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="font-semibold neon-text">Komunitas Aksi Pentur</Link>
+        <Link href="/" className="font-semibold neon-text">HMPS Teknik Informatika</Link>
 
         {/* Desktop menu */}
         <div className="hidden sm:flex items-center gap-1">
