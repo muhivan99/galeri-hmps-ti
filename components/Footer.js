@@ -17,7 +17,7 @@ export default function Footer() {
             {/* Logo kampus & organisasi di bawah kalimat di atas */}
             <div className="mt-4 flex items-center gap-4">
               <LogoPlanetOrbit
-                src="/logos/organisasi.png"   // ganti sesuai file kamu
+                src="/logos/organisasi.png"
                 alt="Logo Organisasi"
                 size={132}
                 particles={56}
@@ -28,7 +28,7 @@ export default function Footer() {
                 ellip={0.62}
               />
               <LogoPlanetOrbit
-                src="/logos/kampus.png"       // ganti sesuai file kamu
+                src="/logos/kampus.png"
                 alt="Logo Kampus"
                 size={132}
                 particles={52}
@@ -41,7 +41,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Kolom 2: navigasi singkat (opsional) */}
+          {/* Kolom 2: navigasi singkat */}
           <div>
             <h4 className="text-white font-medium mb-2">Navigasi</h4>
             <ul className="text-slate-400 text-sm space-y-1">
