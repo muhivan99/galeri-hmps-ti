@@ -1,19 +1,54 @@
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function LogoTech({
   src, alt,
-  size = 160,           // ubah kalau mau kotaknya lebih besar
-  glow = true,
-  glitch = true
+  size = 168,
+  effects = ['glow','shine','scanlines','tilt','aura','ripple'] // pilih sebagian juga boleh
 }) {
+  const boxRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
+
+  const has = (k) => effects.includes(k);
+
+  function onMove(e){
+    if (!boxRef.current) return;
+    const r = boxRef.current.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+
+    // buat ripple & highlight
+    boxRef.current.style.setProperty('--mx', `${x}px`);
+    boxRef.current.style.setProperty('--my', `${y}px`);
+
+    // 3D tilt
+    const rx = ((x / r.width) - 0.5) * 12;   // rotateY
+    const ry = -((y / r.height) - 0.5) * 12; // rotateX
+    boxRef.current.style.setProperty('--rx', has('tilt') ? `${rx}deg` : '0deg');
+    boxRef.current.style.setProperty('--ry', has('tilt') ? `${ry}deg` : '0deg');
+  }
+  function onLeave(){
+    if (!boxRef.current) return;
+    boxRef.current.style.setProperty('--rx', '0deg');
+    boxRef.current.style.setProperty('--ry', '0deg');
+  }
+
   return (
     <div
-      className={`relative isolate group rounded-2xl border border-white/10 bg-white/5 backdrop-blur ${
-        glow ? 'neon-card floaty' : ''
-      } ${loaded ? '' : 'skeleton'}`}
+      ref={boxRef}
+      onMouseMove={(has('tilt') || has('ripple')) ? onMove : undefined}
+      onMouseLeave={onLeave}
+      onTouchMove={(has('ripple')) ? onMove : undefined}
+      className={[
+        'logo-wrap group relative isolate rounded-2xl border border-white/10 bg-white/5 backdrop-blur',
+        loaded ? '' : 'skeleton',
+        has('glow') ? 'logo-glow' : '',
+        has('shine') ? 'logo-shine' : '',
+        has('scanlines') ? 'logo-scan' : '',
+        has('aura') ? 'logo-aura' : '',
+        has('tilt') ? 'logo-tilt' : ''
+      ].join(' ')}
       style={{ width: size, height: size }}
       aria-label={alt}
       role="img"
@@ -28,24 +63,11 @@ export default function LogoTech({
         priority
       />
 
-      {/* glitch layers (muncul saat hover) */}
-      {glitch && (
-        <>
-          <img
-            aria-hidden
-            src={src}
-            className="absolute inset-0 opacity-0 group-hover:opacity-70 glitch-r pointer-events-none"
-          />
-          <img
-            aria-hidden
-            src={src}
-            className="absolute inset-0 opacity-0 group-hover:opacity-60 glitch-b pointer-events-none"
-          />
-        </>
-      )}
+      {/* ripple spotlight */}
+      {has('ripple') && <span aria-hidden className="logo-ripple" />}
 
-      {/* outer neon glow overlay */}
-      <div className="absolute inset-0 rounded-2xl pointer-events-none neon-outer-glow" />
+      {/* neon outer glow */}
+      {has('glow') && <span aria-hidden className="logo-outer" />}
     </div>
   );
 }
