@@ -27,17 +27,19 @@ export default function Hero({ stats }){
 
           {/* kanan: dua logo berdampingan */}
           <div className="flex items-center justify-center md:justify-end gap-6">
-            <LogoTech
-              src="/logos/organisasi.png"  // ← ganti sesuai nama file kamu
+          <LogoTech
+              src="/logos/organisasi.png"
               alt="Logo Organisasi"
               size={168}
+              effects={['glow','shine','scanlines','tilt','aura']}
             />
             <LogoTech
-              src="/logos/kampus.png"      // ← ganti sesuai nama file kamu
+              src="/logos/kampus.png"
               alt="Logo Kampus"
               size={168}
+              effects={['glow','ripple','aura']}   // beda kombinasi, bebas
             />
-          </div>
+        </div>
         </div>
       </div>
     </header>
