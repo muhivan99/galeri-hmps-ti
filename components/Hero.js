@@ -6,7 +6,8 @@ export default function Hero({ stats }){
     <header className="relative overflow-hidden">
       <ParallaxLayers />
       <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid md:grid-cols-[1fr,360px] items-center gap-10">
+      {/* align-start di desktop supaya kolom kanan nempel atas */}
+      <div className="grid md:grid-cols-[1fr,360px] items-center md:items-start gap-10">
           {/* kiri: judul + copy + stats */}
           <div>
             <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-white">
@@ -26,7 +27,8 @@ export default function Hero({ stats }){
           </div>
 
           {/* kanan: dua logo orbit tanpa box */}
-          <div className="flex items-center justify-center md:justify-end gap-8">
+          <div className="flex items-center justify-center md:justify-end gap-8
+            md:self-start md:mt-[32px] lg:mt-[40px]">
           <LogoOrbitFlow
               src="/logos/organisasi.png"
               alt="Logo Organisasi"
