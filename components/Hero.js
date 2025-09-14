@@ -1,5 +1,5 @@
 import ParallaxLayers from '@/components/ParallaxLayers';
-import LogoTech from '@/components/LogoTech';
+import LogoOrbit from '@/components/LogoOrbit';
 
 export default function Hero({ stats }){
   return (
@@ -25,21 +25,25 @@ export default function Hero({ stats }){
             </div>
           </div>
 
-          {/* kanan: dua logo berdampingan */}
-          <div className="flex items-center justify-center md:justify-end gap-6">
-          <LogoTech
-              src="/logos/organisasi.png"
+          {/* kanan: dua logo orbit tanpa box */}
+          <div className="flex items-center justify-center md:justify-end gap-8">
+            <LogoOrbit
+              src="/logos/organisasi.png"   // ganti sesuai file kamu
               alt="Logo Organisasi"
-              size={168}
-              effects={['glow','shine','scanlines','tilt','aura']}
+              size={180}
+              particles={64}
+              speed={0.7}
+              ring={0.8}
             />
-            <LogoTech
-              src="/logos/kampus.png"
+            <LogoOrbit
+              src="/logos/kampus.png"       // ganti sesuai file kamu
               alt="Logo Kampus"
-              size={168}
-              effects={['glow','ripple','aura']}   // beda kombinasi, bebas
+              size={180}
+              particles={56}
+              speed={0.55}
+              ring={0.78}
             />
-        </div>
+          </div>
         </div>
       </div>
     </header>
