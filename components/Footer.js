@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import LogoPlanetOrbit from '@/components/LogoPlanetOrbit';
 
 export default function Footer(){
   return (
@@ -8,6 +9,34 @@ export default function Footer(){
         <div>
           <div className="font-semibold mb-2 neon-text">HMPS Teknik Informatika</div>
           <p className="text-slate-400 text-sm">Kolaborasi, donasi, atau liputan kegiatan? Kirim pesan melalui formulir.</p>
+  
+     {/* LOGO DI SINI */}
+  <div className="mt-4 flex items-center gap-4">
+    <LogoPlanetOrbit
+      src="/logos/organisasi.png"  // ganti sesuai file kamu
+      alt="Logo Organisasi"
+      size={132}
+      particles={56}
+      speed={0.65}
+      inner={0.36}
+      outer={0.92}
+      tiltDeg={28}
+      ellip={0.62}
+    />
+    <LogoPlanetOrbit
+      src="/logos/kampus.png"      // ganti sesuai file kamu
+      alt="Logo Kampus"
+      size={132}
+      particles={52}
+      speed={0.6}
+      inner={0.38}
+      outer={0.95}
+      tiltDeg={-28}
+      ellip={0.62}
+    />
+  </div>
+</div>
+        
         </div>
         <div className="text-slate-300 text-sm">
           <div className="font-medium text-white/90 mb-2">Kontak</div>
