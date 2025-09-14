@@ -2,15 +2,15 @@
 import ParallaxLayers from '@/components/ParallaxLayers';
 import dynamic from 'next/dynamic';
 
-// render efek canvas di client saja
-const LogoOrbitFlow = dynamic(() => import('./LogoOrbitFlow'), { ssr: false });
+// Render canvas effect di client saja
+const LogoPlanetOrbit = dynamic(() => import('./LogoPlanetOrbit'), { ssr: false });
 
 export default function Hero({ stats }) {
   return (
     <header className="relative overflow-hidden">
       <ParallaxLayers />
       <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid md:grid-cols-[1fr,360px] gap-10">
+        <div className="grid md:grid-cols-[1fr,380px] gap-10">
           {/* Kiri: judul + copy + stats */}
           <div>
             <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-white">
@@ -30,29 +30,18 @@ export default function Hero({ stats }) {
             </div>
           </div>
 
-          {/* Kanan: logo di samping teks (hanya tampil di md ke atas) */}
-          <div className="hidden md:flex items-center justify-end gap-6 md:self-center">
-            <LogoOrbitFlow
-              src="/logos/organisasi.png"   // ganti sesuai file kamu
+          {/* Kanan: HANYA logo organisasi, besar */}
+          <div className="hidden md:flex items-center justify-end md:self-center">
+            <LogoPlanetOrbit
+              src="/logos/organisasi.png"   // pastikan file ini ada
               alt="Logo Organisasi"
-              size={164}
-              particles={68}
+              size={240}        // <<< gedein logo
+              particles={90}
               speed={0.7}
-              inner={0.36}
-              outer={0.92}
-              tiltDeg={32}
-              ellip={0.62}
-            />
-            <LogoOrbitFlow
-              src="/logos/kampus.png"       // ganti sesuai file kamu
-              alt="Logo Kampus"
-              size={164}
-              particles={60}
-              speed={0.6}
-              inner={0.38}
-              outer={0.95}
-              tiltDeg={-32}
-              ellip={0.62}
+              inner={0.32}
+              outer={0.98}
+              tiltDeg={28}
+              ellip={0.58}
             />
           </div>
         </div>
