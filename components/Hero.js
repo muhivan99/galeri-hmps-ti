@@ -3,7 +3,7 @@ import ParallaxLayers from '@/components/ParallaxLayers';
 import dynamic from 'next/dynamic';
 
 // render efek canvas di client saja
-const LogoOrbitFlow = dynamic(() => import('@/components/LogoOrbitFlow'), { ssr: false });
+const LogoOrbitFlow = dynamic(() => import('./LogoOrbitFlow'), { ssr: false });
 
 export default function Hero({ stats }) {
   return (
