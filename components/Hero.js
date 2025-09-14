@@ -1,5 +1,5 @@
 import ParallaxLayers from '@/components/ParallaxLayers';
-import LogoOrbit from '@/components/LogoOrbit';
+import LogoOrbitFlow from '@/components/LogoOrbitFlow';
 
 export default function Hero({ stats }){
   return (
@@ -27,23 +27,29 @@ export default function Hero({ stats }){
 
           {/* kanan: dua logo orbit tanpa box */}
           <div className="flex items-center justify-center md:justify-end gap-8">
-            <LogoOrbit
-              src="/logos/organisasi.png"   // ganti sesuai file kamu
+          <LogoOrbitFlow
+              src="/logos/organisasi.png"
               alt="Logo Organisasi"
-              size={180}
-              particles={64}
+              size={184}
+              particles={72}
               speed={0.7}
-              ring={0.8}
-            />
-            <LogoOrbit
-              src="/logos/kampus.png"       // ganti sesuai file kamu
+              inner={0.36}   // lebih kecil -> makin “masuk” ke logo
+              outer={0.92}
+              tiltDeg={35}   // sudut diagonal
+              ellip={0.6}    // 0.4-0.8: rasio elips
+        />
+          <LogoOrbitFlow
+              src="/logos/kampus.png"
               alt="Logo Kampus"
-              size={180}
-              particles={56}
-              speed={0.55}
-              ring={0.78}
-            />
-          </div>
+              size={184}
+              particles={64}
+              speed={0.6}
+              inner={0.4}
+              outer={0.95}
+              tiltDeg={-35}  // lawan arah biar kontras
+              ellip={0.65}
+          />
+        </div>
         </div>
       </div>
     </header>
