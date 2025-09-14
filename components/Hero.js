@@ -1,27 +1,23 @@
-// components/Hero.js
 import ParallaxLayers from '@/components/ParallaxLayers';
 import dynamic from 'next/dynamic';
 
-// Render canvas effect di client saja
-const LogoPlanetOrbit = dynamic(() => import('./LogoPlanetOrbit'), { ssr: false });
+// render di client saja
+const LogoStardustOrbit = dynamic(() => import('./LogoStardustOrbit'), { ssr: false });
 
 export default function Hero({ stats }) {
   return (
     <header className="relative overflow-hidden">
       <ParallaxLayers />
       <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid md:grid-cols-[1fr,380px] gap-10">
-          {/* Kiri: judul + copy + stats */}
+        <div className="grid md:grid-cols-[1fr,400px] gap-10">
           <div>
             <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-white">
               <span className="neon-text">Galeri Kegiatan &amp; Struktur Organisasi</span><br />
               <span className="text-slate-300">Dari Mahasiswa, untuk warga bergerak nyata.</span>
             </h1>
-
             <p className="max-w-2xl mt-4 text-slate-300/90">
               Di sini, setiap ide dihargai, setiap algoritma diperdebatkan, dan setiap solusi diciptakan bersama.
             </p>
-
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4">
               <Stat label="Kegiatan" value={stats.kegiatan} />
               <Stat label="Pengurus Inti" value={stats.pengurus} />
@@ -30,18 +26,17 @@ export default function Hero({ stats }) {
             </div>
           </div>
 
-          {/* Kanan: HANYA logo organisasi, besar */}
+          {/* Kanan: logo organisasi + stardust */}
           <div className="hidden md:flex items-center justify-end md:self-center">
-            <LogoPlanetOrbit
+            <LogoStardustOrbit
               src="/logos/organisasi.png"   // pastikan file ini ada
-              alt="Logo Organisasi"
-              size={240}        // <<< gedein logo
-              particles={90}
+              size={280}                     // logo + orbit gede
+              particles={120}                // makin banyak = makin glittery (lebih berat)
               speed={0.7}
-              inner={0.32}
+              inner={0.28}
               outer={0.98}
-              tiltDeg={28}
-              ellip={0.58}
+              tiltDeg={30}
+              ellip={0.56}
             />
           </div>
         </div>
