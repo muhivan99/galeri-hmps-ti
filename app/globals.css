@@ -40,12 +40,9 @@ body { background: var(--bg); }
 }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 
-/* orbit helper: no box, full transparent */
-.logo-orbit { isolation: isolate; }
-.logo-orbit img { display:block; }
-@media (prefers-reduced-motion: reduce){
-  .logo-orbit { will-change: auto; }
-}
+.logo-orbit-flow { isolation: isolate; }
+.logo-orbit-flow img { display: block; }
+@media (prefers-reduced-motion: reduce){ .logo-orbit-flow { will-change: auto; } }
 
 
 
