@@ -1,4 +1,5 @@
-// components/Footer.js
+'use client';
+import Link from 'next/link';
 import LogoPlanetOrbit from '@/components/LogoPlanetOrbit';
 import ContactForm from '@/components/ContactForm';
 
@@ -14,7 +15,6 @@ export default function Footer() {
               Kolaborasi, donasi, atau liputan kegiatan? Kirim pesan melalui formulir.
             </p>
 
-            {/* Logo kampus & organisasi di bawah kalimat di atas */}
             <div className="mt-4 flex items-center gap-4">
               <LogoPlanetOrbit
                 src="/logos/organisasi.png"
@@ -41,13 +41,13 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Kolom 2: navigasi singkat */}
+          {/* Kolom 2: navigasi */}
           <div>
             <h4 className="text-white font-medium mb-2">Navigasi</h4>
             <ul className="text-slate-400 text-sm space-y-1">
-              <li><a href="/" className="hover:text-white/90">Home</a></li>
-              <li><a href="/galeri" className="hover:text-white/90">Galeri</a></li>
-              <li><a href="/kepengurusan" className="hover:text-white/90">Kepengurusan</a></li>
+              <li><Link href="/" className="hover:text-white/90">Home</Link></li>
+              <li><Link href="/galeri" className="hover:text-white/90">Galeri</Link></li>
+              <li><Link href="/kepengurusan" className="hover:text-white/90">Kepengurusan</Link></li>
             </ul>
           </div>
 
