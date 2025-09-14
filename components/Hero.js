@@ -29,16 +29,17 @@ export default function Hero({ stats }) {
           {/* Kanan: logo organisasi + stardust */}
           <div className="hidden md:flex items-center justify-end md:self-center">
             <LogoStardustOrbit
-              src="/logos/organisasi.png"   // pastikan file ini ada
-              size={280}                     // logo + orbit gede
-              particles={120}                // makin banyak = makin glittery (lebih berat)
-              speed={0.7}
-              inner={0.28}
-              outer={0.98}
-              tiltDeg={30}
-              ellip={0.56}
-            />
-          </div>
+            src="/logos/organisasi.png"
+            size={280}
+            particles={120}    // ini sudah adaptif mobile otomatis
+            comets={1}         // 1 komet cukup, hemat GPU
+            speed={0.7}
+            inner={0.28}
+            outer={0.98}
+            tiltDeg={30}
+            ellip={0.56}
+          />
+        </div>
         </div>
       </div>
     </header>
