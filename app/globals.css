@@ -40,69 +40,68 @@ body { background: var(--bg); }
 }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 
-/* ====== LOGO: neon + glitch + float ====== */
-.neon-card {
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.08) inset,
-    0 8px 40px rgba(96,165,250,.18),
-    0 0 60px var(--neon2);
-  animation: pulse 3.2s ease-in-out infinite;
-}
-.neon-outer-glow {
-  border-radius: 1rem;
-  box-shadow:
-    0 0 30px var(--neon2),
-    0 0 70px var(--neon3);
-  opacity: .35;
-  transition: opacity .25s ease;
-}
-.group:hover .neon-outer-glow { opacity: .8; }
+/* ===== Logo effects ===== */
+.logo-wrap { overflow: hidden; }
 
-.floaty { animation: floaty 6s ease-in-out infinite; }
-@keyframes floaty { 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+/* neon glow breath */
+.logo-glow { animation: logo-pulse 3.2s ease-in-out infinite; }
+.logo-outer {
+  position:absolute; inset:-2px; border-radius:1rem; pointer-events:none;
+  box-shadow: 0 0 30px var(--neon2), 0 0 70px var(--neon3);
+  opacity:.35; transition:opacity .25s ease;
+}
+.group:hover .logo-outer { opacity:.75; }
+@keyframes logo-pulse { 0%,100%{filter:none} 50%{filter:drop-shadow(0 0 16px rgba(255,255,255,.08))} }
 
-@keyframes pulse {
-  0%,100% { filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
-  50%     { filter: drop-shadow(0 0 18px rgba(255,255,255,.06)); }
+/* shine sweep */
+.logo-shine::before{
+  content:""; position:absolute; inset:-140% -40%;
+  background: linear-gradient(75deg, transparent, rgba(255,255,255,.4), transparent);
+  transform: rotate(15deg) translateX(-60%);
+  opacity:0; transition: opacity .25s ease;
+}
+.group:hover.logo-shine::before{ opacity:1; animation: shine 1.8s ease-in-out; }
+@keyframes shine { to { transform: rotate(15deg) translateX(60%);} }
+
+/* scanlines + hologram-ish */
+.logo-scan::after{
+  content:""; position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(transparent 0 2px, rgba(255,255,255,.08) 2px 3px),
+    radial-gradient(1200px 500px at 50% 0%, rgba(255,255,255,.06), transparent 60%);
+  mix-blend-mode: screen; opacity:.55;
+  animation: scan-move 8s linear infinite;
+}
+@keyframes scan-move { from { background-position: 0 0, 50% 0; } to { background-position: 0 100px, 50% 0; } }
+
+/* 3D tilt */
+.logo-tilt { transform: perspective(900px) rotateX(var(--ry,0)) rotateY(var(--rx,0)); transition: transform .12s ease; }
+
+/* ripple spotlight yang ngikutin kursor */
+.logo-ripple{
+  position:absolute; inset:0; pointer-events:none;
+  background: radial-gradient(300px 300px at var(--mx,50%) var(--my,50%),
+              rgba(255,255,255,.25), rgba(255,255,255,0) 60%);
+  opacity:0; transition: opacity .2s ease;
+}
+.group:hover .logo-ripple{ opacity:.9; }
+
+/* aura ring berputar */
+.logo-aura::after{
+  content:""; position:absolute; inset:-12px; border-radius:1.25rem; pointer-events:none;
+  background: conic-gradient(from 0deg,
+    rgba(255,255,255,.0), var(--neon1), var(--neon2), var(--neon3), rgba(255,255,255,.0));
+  -webkit-mask: radial-gradient(closest-side, transparent 72%, #000 72.2%);
+          mask: radial-gradient(closest-side, transparent 72%, #000 72.2%);
+  filter: blur(10px);
+  animation: aura-spin 8s linear infinite;
+}
+@keyframes aura-spin { to { transform: rotate(360deg); } }
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  .logo-glow, .logo-shine::before, .logo-scan::after, .logo-tilt,
+  .logo-ripple, .logo-aura::after { animation: none !important; transition: none !important; }
 }
 
-/* glitch layers on hover */
-.glitch-r, .glitch-b {
-  mix-blend-mode: screen;
-  will-change: transform;
-}
-.glitch-r { animation: glitchX 1.8s steps(12) infinite; filter: hue-rotate(30deg) saturate(140%); }
-.glitch-b { animation: glitchY 2.1s steps(16) infinite; filter: hue-rotate(-35deg) saturate(140%); }
-
-@keyframes glitchX {
-  0% { transform: translate(0,0); }
-  10% { transform: translate(1px, -1px); }
-  20% { transform: translate(-1.5px, .5px); }
-  30% { transform: translate(1.5px, 1px); }
-  40% { transform: translate(-1px, -1px); }
-  50% { transform: translate(1px, 0); }
-  60% { transform: translate(-1px, 1px); }
-  70% { transform: translate(.5px, -1px); }
-  80% { transform: translate(-.5px, .5px); }
-  90% { transform: translate(1px, 1px); }
-  100% { transform: translate(0,0); }
-}
-@keyframes glitchY {
-  0% { transform: translate(0,0); }
-  12% { transform: translate(-1px, 1px); }
-  24% { transform: translate(1px, .5px); }
-  36% { transform: translate(-1.5px, -.5px); }
-  48% { transform: translate(.5px, -1px); }
-  60% { transform: translate(-.5px, 1px); }
-  72% { transform: translate(1px, -1px); }
-  84% { transform: translate(-1px, .5px); }
-  100% { transform: translate(0,0); }
-}
-
-/* respect reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .floaty { animation: none !important; }
-  .glitch-r, .glitch-b { display: none !important; }
-  .neon-card { animation: none !important; }
-}
 
