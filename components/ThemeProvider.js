@@ -5,9 +5,9 @@ export default function ThemeProvider({ children }) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="dark"       // default GELAP
-      enableSystem={false}      // abaikan tema OS
-      disableTransitionOnChange // biar tidak kedip
+      defaultTheme="dark"        // default: GELAP
+      enableSystem={false}
+      disableTransitionOnChange
     >
       {children}
     </NextThemesProvider>
