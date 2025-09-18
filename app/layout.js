@@ -26,9 +26,11 @@ import ThemeProvider from '@/components/ThemeProvider';
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id">
+    <html lang="id" className="dark" suppressHydrationWarning>
       <body className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
