@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 
 /**
  * Stardust Orbit — ringan tapi mewah:
@@ -26,6 +27,7 @@ export default function LogoStardustOrbit({
   const frontRef = useRef(null);
   const rafRef   = useRef(0);
   const running  = useRef(false);
+  const { resolvedTheme } = useTheme(); // <- biar re-render pas ganti tema
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -266,7 +268,7 @@ export default function LogoStardustOrbit({
       wrap.removeEventListener('click', spawnBurst);
       wrap.removeEventListener('touchstart', spawnBurst);
     };
-  }, [size, particles, comets, speed, inner, outer, tiltDeg, ellip]);
+  }, [resolvedTheme, size, particles, comets, speed, inner, outer, tiltDeg, ellip]);
 
   return (
     <div
