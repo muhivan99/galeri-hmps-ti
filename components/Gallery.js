@@ -45,17 +45,17 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
       {enableFilters && (
         <div className="flex flex-wrap gap-2 mb-6">
           {cats.map(cat => {
-            const active = selectedCats.includes(cat);
-            return (
-              <button
-                key={cat}
-                onClick={() => toggleCat(cat, active)}
-                className={`chip ${active ? 'is-active' : ''}`}
-              >
-                <span className="text-sm">{cat}</span>
-              </button>
-            );
-          })}
+  const active = selectedCats.includes(cat);
+  return (
+    <button
+      key={cat}
+      onClick={() => toggleCat(cat, active)}
+      className={`chip ${active ? 'is-active' : ''}`}
+    >
+      <span className="text-sm">{cat}</span>
+    </button>
+  );
+})}
           {selectedCats.length > 0 && (
             <button onClick={() => setSelectedCats([])} className="chip">
               Reset
