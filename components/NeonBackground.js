@@ -1,84 +1,170 @@
+// components/NeonBackground.js
 'use client';
+
 import { useEffect, useRef } from 'react';
 
-export default function NeonBackground(){
+export default function NeonBackground() {
   const ref = useRef(null);
-  const mouse = useRef({ x: -9999, y: -9999 });
+  const raf = useRef(0);
+  const running = useRef(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     const canvas = ref.current;
-    const ctx = canvas.getContext('2d');
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
+    if (!canvas) return;
 
-    const onResize = ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; init(); };
-    window.addEventListener('resize', onResize);
+    const ctx = canvas.getContext('2d', { alpha: true });
 
-    const particles = []; const COUNT = Math.min(140, Math.floor((w*h)/18000));
-    function init(){
-      particles.length = 0;
-      for (let i=0; i<COUNT; i++){
-        particles.push({
-          x: Math.random()*w,
-          y: Math.random()*h,
-          vx: (Math.random()-0.5)*0.3,
-          vy: (Math.random()-0.5)*0.3,
-          r: Math.random()*1.8+0.6,
-          hue: 280 + Math.random()*80
-        });
+    // DPR cap biar nggak berat
+    const getDpr = () => Math.min(1.75, globalThis.devicePixelRatio || 1);
+
+    const size = () => {
+      const dpr = getDpr();
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      canvas.width = Math.max(1, Math.floor(w * dpr));
+      canvas.height = Math.max(1, Math.floor(h * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    // warna dari CSS variable (ikut theme)
+    const css = () => getComputedStyle(document.documentElement);
+    const col = () => ({
+      dot: (css().getPropertyValue('--bgDot') || 'rgba(255,255,255,.6)').trim(),
+      line: (css().getPropertyValue('--bgLine') || 'rgba(255,255,255,.07)').trim(),
+      glow1: (css().getPropertyValue('--neon2') || '#67e8f9').trim(),
+      glow2: (css().getPropertyValue('--neon3') || '#60a5fa').trim(),
+    });
+
+    // inisiasi partikel (density adaptif)
+    let particles = [];
+    const init = () => {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      const area = w * h;
+      const count = Math.min(160, Math.max(40, Math.floor(area / 14000))); // 14k px per partikel
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: 0.6 + Math.random() * 1.4,
+        tw: Math.random() * Math.PI * 2,
+      }));
+    };
+
+    size();
+    init();
+
+    let visible = true;
+    const onVis = () => (visible = document.visibilityState === 'visible');
+    document.addEventListener('visibilitychange', onVis);
+
+    const onResize = () => {
+      size();
+      init();
+    };
+    const ro = new ResizeObserver(onResize);
+    ro.observe(canvas);
+
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const step = () => {
+      if (!running.current) return;
+      if (!visible) {
+        raf.current = requestAnimationFrame(step);
+        return;
       }
-    }
+      const { width: W, height: H } = canvas;
+      // catatan: ctx sudah scale ke DPR=1 dengan setTransform, jadi pakai clientWidth/Height
+      const cw = canvas.clientWidth;
+      const ch = canvas.clientHeight;
 
-    let raf;
-    function draw(){
-      ctx.clearRect(0,0,w,h);
-      const g = ctx.createRadialGradient(w*0.7,h*0.3,0,w*0.7,h*0.3,Math.max(w,h));
-      g.addColorStop(0,'rgba(124,58,237,0.18)');
-      g.addColorStop(1,'rgba(6,182,212,0.06)');
-      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+      ctx.clearRect(0, 0, cw, ch);
 
-      for (let i=0;i<particles.length;i++){
-        const p = particles[i];
-        const dx = p.x - mouse.current.x; const dy = p.y - mouse.current.y; const d2 = dx*dx+dy*dy; const r = 90;
-        if (d2 < r*r){
-          const d = Math.sqrt(d2)||1; const force = (r-d)/r;
-          p.vx += (dx/d)*force*0.7; p.vy += (dy/d)*force*0.7;
-        }
-        p.x += p.vx; p.y += p.vy; p.vx*=0.995; p.vy*=0.995;
-        if (p.x<0) p.x=w; if (p.x>w) p.x=0; if (p.y<0) p.y=h; if (p.y>h) p.y=0;
+      const c = col();
+
+      // radial glow lembut (ringan)
+      const g1 = ctx.createRadialGradient(cw * 0.2, ch * 0.1, 0, cw * 0.2, ch * 0.1, Math.max(cw, ch) * 0.8);
+      g1.addColorStop(0, c.glow1 + '22'); // + alpha
+      g1.addColorStop(1, 'transparent');
+      ctx.fillStyle = g1;
+      ctx.fillRect(0, 0, cw, ch);
+
+      const g2 = ctx.createRadialGradient(cw * 0.85, ch * 0.8, 0, cw * 0.85, ch * 0.8, Math.max(cw, ch) * 0.7);
+      g2.addColorStop(0, c.glow2 + '22');
+      g2.addColorStop(1, 'transparent');
+      ctx.fillStyle = g2;
+      ctx.fillRect(0, 0, cw, ch);
+
+      // gerak & gambar partikel
+      ctx.globalCompositeOperation = 'lighter';
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        // bounce
+        if (p.x < -10) p.x = cw + 10;
+        else if (p.x > cw + 10) p.x = -10;
+        if (p.y < -10) p.y = ch + 10;
+        else if (p.y > ch + 10) p.y = -10;
+
+        // twinkle halus
+        p.tw += 0.03;
+        const a = 0.35 + 0.35 * Math.sin(p.tw);
+
+        ctx.beginPath();
+        ctx.fillStyle = c.dot;
+        ctx.globalAlpha = a;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
       }
 
-      ctx.lineWidth = 0.6;
-      for (let i=0;i<particles.length;i++){
-        for (let j=i+1;j<particles.length;j++){
-          const a=particles[i], b=particles[j];
-          const dx=a.x-b.x, dy=a.y-b.y; const d2=dx*dx+dy*dy;
-          if (d2<120*120){
-            ctx.strokeStyle = `rgba(147,197,253,${1 - d2/(120*120)})`;
-            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      // garis koneksi (jarak dekat)
+      ctx.lineWidth = 1;
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          const max = 120; // px
+          if (d2 < max * max) {
+            const t = 1 - Math.sqrt(d2) / max;
+            ctx.globalAlpha = 0.5 * t * t;
+            ctx.strokeStyle = c.line;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
           }
         }
       }
+      ctx.globalAlpha = 1;
 
-      for (const p of particles){
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle = `hsla(${p.hue},90%,60%,0.9)`; ctx.shadowBlur=20; ctx.shadowColor=`hsla(${p.hue},100%,60%,0.8)`; ctx.fill();
+      if (reduceMotion) {
+        // 1 frame aja kalau user pilih reduce
+        cancelAnimationFrame(raf.current);
+        return;
       }
-      ctx.shadowBlur=0;
-      raf = requestAnimationFrame(draw);
-    }
+      raf.current = requestAnimationFrame(step);
+    };
 
-    function onMove(e){
-      const x = e.touches? e.touches[0].clientX : e.clientX;
-      const y = e.touches? e.touches[0].clientY : e.clientY;
-      mouse.current.x = x; mouse.current.y = y;
-    }
+    running.current = true;
+    raf.current = requestAnimationFrame(step);
 
-    init(); draw();
-    window.addEventListener('mousemove', onMove, { passive: true });
-    window.addEventListener('touchmove', onMove, { passive: true });
-    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); window.removeEventListener('mousemove', onMove); window.removeEventListener('touchmove', onMove); };
-  },[]);
+    return () => {
+      running.current = false;
+      cancelAnimationFrame(raf.current);
+      document.removeEventListener('visibilitychange', onVis);
+      ro.disconnect();
+    };
+  }, []);
 
-  return <canvas ref={ref} className="pointer-events-none fixed inset-0 -z-10 opacity-90" />;
+  return (
+    <canvas
+      ref={ref}
+      className="fixed inset-0 -z-10 h-full w-full pointer-events-none"
+      aria-hidden="true"
+    />
+  );
 }
