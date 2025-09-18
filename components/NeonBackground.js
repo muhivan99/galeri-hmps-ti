@@ -1,123 +1,243 @@
+// components/NeonBackground.js
 'use client';
 import { useEffect, useRef } from 'react';
 
-export default function NeonBackground() {
-  const ref = useRef(null);
-  const raf = useRef(0);
+/**
+ * Tech Constellation + Pulse Beams
+ * - Node bergerak slow drift
+ * - Garis koneksi adaptif jarak
+ * - Beam/packet melintas (gradien neon)
+ * - Tema-aware via CSS vars (--bgDot, --bgLine, --neon1/2/3)
+ * - Hemat: DPR cap, jumlah node adaptif, pause saat offscreen/hidden
+ */
+export default function NeonBackground({ zIndex = -20 }) {
+  const baseRef = useRef(null);
+  const fxRef = useRef(null);
+  const rafRef = useRef(0);
   const running = useRef(false);
 
   useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
+    const canvas = baseRef.current;
+    const canvasFX = fxRef.current;
     const ctx = canvas.getContext('2d', { alpha: true });
+    const ctxFX = canvasFX.getContext('2d', { alpha: true });
 
-    const getDpr = () => Math.min(1.75, globalThis.devicePixelRatio || 1);
+    const DPR = Math.min(1.75, globalThis.devicePixelRatio || 1);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+    const mem = navigator.deviceMemory || 8;
 
-    const size = () => {
-      const dpr = getDpr();
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      canvas.width = Math.max(1, Math.floor(w * dpr));
-      canvas.height = Math.max(1, Math.floor(h * dpr));
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // ukuran, DPR
+    const fit = () => {
+      const { innerWidth: W, innerHeight: H } = window;
+      [canvas, canvasFX].forEach(c => {
+        c.width = Math.floor(W * DPR);
+        c.height = Math.floor(H * DPR);
+        c.style.width = W + 'px';
+        c.style.height = H + 'px';
+      });
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctxFX.setTransform(DPR, 0, 0, DPR, 0, 0);
+    };
+    fit();
+    const onResize = () => fit();
+    window.addEventListener('resize', onResize);
+
+    // jumlah node adaptif
+    const baseNodes = isMobile || mem <= 4 ? 60 : 110;
+
+    // warna dari CSS vars (tema-aware)
+    const readPalette = () => {
+      const css = getComputedStyle(document.documentElement);
+      const dot = css.getPropertyValue('--bgDot').trim() || 'rgba(255,255,255,.6)';
+      const line = css.getPropertyValue('--bgLine').trim() || 'rgba(255,255,255,.08)';
+      const n1 = css.getPropertyValue('--neon1').trim() || '#f0abfc';
+      const n2 = css.getPropertyValue('--neon2').trim() || '#67e8f9';
+      const n3 = css.getPropertyValue('--neon3').trim() || '#60a5fa';
+      return { dot, line, n1, n2, n3 };
+    };
+    let pal = readPalette();
+
+    // Node/edges
+    const nodes = [];
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const W = () => canvas.width / DPR;
+    const H = () => canvas.height / DPR;
+
+    const initNodes = () => {
+      nodes.length = 0;
+      const N = Math.round(baseNodes * (W() * H()) / (1440 * 900)); // skala layar
+      for (let i = 0; i < N; i++) {
+        nodes.push({
+          x: Math.random() * W(),
+          y: Math.random() * H(),
+          vx: rand(-0.08, 0.08),
+          vy: rand(-0.08, 0.08),
+          drift: rand(0.0008, 0.0022),
+          a: Math.random() * Math.PI * 2,
+          r: rand(0.6, 1.4),
+        });
+      }
+    };
+    initNodes();
+
+    // beams (packet melintas)
+    const beams = [];
+    const spawnBeam = () => {
+      if (nodes.length < 2) return;
+      const a = nodes[(Math.random() * nodes.length) | 0];
+      let b = nodes[(Math.random() * nodes.length) | 0];
+      if (a === b) b = nodes[(Math.random() * nodes.length) | 0];
+
+      const speed = rand(0.0040, 0.0075); // 0..1 per frame
+      const huePick = Math.random();
+      const colorFrom =
+        huePick < 0.33 ? pal.n1 : huePick < 0.66 ? pal.n2 : pal.n3;
+
+      beams.push({
+        ax: a.x, ay: a.y, bx: b.x, by: b.y,
+        t: 0, speed,
+        color: colorFrom,
+        life: 1 + Math.random() * 1.2
+      });
+      // keep kecil
+      if (beams.length > 16) beams.shift();
     };
 
-    const css = () => getComputedStyle(document.documentElement);
-    const colors = () => ({
-      dot: (css().getPropertyValue('--bgDot') || 'rgba(255,255,255,.6)').trim(),
-      line: (css().getPropertyValue('--bgLine') || 'rgba(255,255,255,.07)').trim(),
-      glow1: (css().getPropertyValue('--neon2') || '#67e8f9').trim(),
-      glow2: (css().getPropertyValue('--neon3') || '#60a5fa').trim(),
-    });
-
-    let particles = [];
-    const init = () => {
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      const area = w * h;
-      const count = Math.min(160, Math.max(40, Math.floor(area / 14000)));
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: 0.6 + Math.random() * 1.4,
-        tw: Math.random() * Math.PI * 2,
-      }));
+    // parallax ringan
+    const cursor = { x: 0, y: 0, tx: 0, ty: 0 };
+    const onMove = (e) => {
+      const x = (e.clientX || (e.touches && e.touches[0]?.clientX) || W() / 2) / W() - 0.5;
+      const y = (e.clientY || (e.touches && e.touches[0]?.clientY) || H() / 2) / H() - 0.5;
+      cursor.tx = x; cursor.ty = y;
     };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('touchmove', onMove, { passive: true });
 
-    size(); init();
-
+    // pause saat offscreen/tab hidden
     let visible = true;
-    const onVis = () => (visible = document.visibilityState === 'visible');
+    const onVis = () => { visible = document.visibilityState === 'visible'; };
     document.addEventListener('visibilitychange', onVis);
+    const io = new IntersectionObserver(([e]) => { visible = !!e?.isIntersecting; });
+    io.observe(canvas);
 
-    const ro = new ResizeObserver(() => { size(); init(); });
-    ro.observe(canvas);
-
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const step = () => {
+    // main loop
+    let tick = 0;
+    const frame = () => {
       if (!running.current) return;
-      if (!visible) { raf.current = requestAnimationFrame(step); return; }
 
-      const cw = canvas.clientWidth, ch = canvas.clientHeight;
-      const c = colors();
-      ctx.clearRect(0, 0, cw, ch);
+      // refresh palette tiap beberapa frame (biar tema-switch kebaca)
+      if ((tick++ & 63) === 0) pal = readPalette();
 
-      // radial glow
-      const g1 = ctx.createRadialGradient(cw*0.2, ch*0.1, 0, cw*0.2, ch*0.1, Math.max(cw,ch)*0.8);
-      g1.addColorStop(0, c.glow1 + '22'); g1.addColorStop(1,'transparent');
-      ctx.fillStyle = g1; ctx.fillRect(0,0,cw,ch);
+      // lerp cursor
+      cursor.x += (cursor.tx - cursor.x) * 0.06;
+      cursor.y += (cursor.ty - cursor.y) * 0.06;
 
-      const g2 = ctx.createRadialGradient(cw*0.85, ch*0.8, 0, cw*0.85, ch*0.8, Math.max(cw,ch)*0.7);
-      g2.addColorStop(0, c.glow2 + '22'); g2.addColorStop(1,'transparent');
-      ctx.fillStyle = g2; ctx.fillRect(0,0,cw,ch);
+      if (!visible) { rafRef.current = requestAnimationFrame(frame); return; }
 
-      // particles
-      ctx.globalCompositeOperation = 'lighter';
-      for (const p of particles) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < -10) p.x = cw + 10; else if (p.x > cw + 10) p.x = -10;
-        if (p.y < -10) p.y = ch + 10; else if (p.y > ch + 10) p.y = -10;
-        p.tw += 0.03;
-        const a = 0.35 + 0.35 * Math.sin(p.tw);
+      ctx.clearRect(0, 0, W(), H());
+      ctxFX.clearRect(0, 0, W(), H());
 
-        ctx.beginPath(); ctx.fillStyle = c.dot; ctx.globalAlpha = a;
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+      // update nodes
+      for (const n of nodes) {
+        n.a += n.drift;
+        n.x += n.vx + Math.cos(n.a) * 0.12 + cursor.x * 0.7;
+        n.y += n.vy + Math.sin(n.a) * 0.12 + cursor.y * 0.7;
+
+        // wrap (infinite plane)
+        if (n.x < -10) n.x = W() + 10; else if (n.x > W() + 10) n.x = -10;
+        if (n.y < -10) n.y = H() + 10; else if (n.y > H() + 10) n.y = -10;
       }
 
-      // lines
-      ctx.lineWidth = 1; ctx.globalAlpha = 1;
-      for (let i=0;i<particles.length;i++){
-        const a = particles[i];
-        for (let j=i+1;j<particles.length;j++){
-          const b = particles[j];
-          const dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy, max=120;
-          if (d2 < max*max) {
-            const t = 1 - Math.sqrt(d2)/max;
-            ctx.globalAlpha = 0.5 * t * t;
-            ctx.strokeStyle = c.line;
-            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      // draw edges + nodes
+      const thresh = Math.min(160, Math.max(110, Math.hypot(W(), H()) / 14));
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = pal.line;
+      ctx.fillStyle = pal.dot;
+
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+
+        // edges: koneksi jarak dekat
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.hypot(dx, dy);
+          if (d < thresh) {
+            const alpha = 1 - d / thresh;
+            ctx.globalAlpha = alpha * 0.8;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
           }
         }
+
+        // node
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+        ctx.fill();
       }
       ctx.globalAlpha = 1;
 
-      if (reduce) { cancelAnimationFrame(raf.current); return; }
-      raf.current = requestAnimationFrame(step);
+      // spawn beam kadang2
+      if ((Math.random() < (isMobile ? 0.03 : 0.06)) && beams.length < 18) spawnBeam();
+
+      // update + draw beams di canvas FX (di atas garis)
+      for (let i = beams.length - 1; i >= 0; i--) {
+        const b = beams[i];
+        b.t += b.speed;
+        b.life -= 0.01;
+        if (b.t > 1 || b.life <= 0) { beams.splice(i, 1); continue; }
+
+        const x = b.ax + (b.bx - b.ax) * b.t;
+        const y = b.ay + (b.by - b.ay) * b.t;
+
+        // trail
+        const trail = 48;
+        const dx = (b.bx - b.ax) / trail;
+        const dy = (b.by - b.ay) / trail;
+
+        for (let k = 0; k < trail; k++) {
+          const px = x - dx * k;
+          const py = y - dy * k;
+          const fade = (1 - k / trail) * b.life;
+
+          // ring glow
+          ctxFX.globalAlpha = 0.75 * fade;
+          ctxFX.fillStyle = b.color;
+          ctxFX.beginPath();
+          ctxFX.arc(px, py, Math.max(0.8, 2.2 * fade), 0, Math.PI * 2);
+          ctxFX.fill();
+        }
+        ctxFX.globalAlpha = 1;
+      }
+
+      rafRef.current = requestAnimationFrame(frame);
     };
 
     running.current = true;
-    raf.current = requestAnimationFrame(step);
+    rafRef.current = requestAnimationFrame(frame);
 
+    // cleanup
     return () => {
       running.current = false;
-      cancelAnimationFrame(raf.current);
+      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('touchmove', onMove);
       document.removeEventListener('visibilitychange', onVis);
-      ro.disconnect();
+      io.disconnect();
     };
   }, []);
 
-  return <canvas ref={ref} className="fixed inset-0 -z-10 h-full w-full pointer-events-none" aria-hidden="true" />;
+  // dua canvas: base (edges+nodes) & FX (beams)
+  const commonClass =
+    'pointer-events-none fixed inset-0 w-full h-full';
+  return (
+    <>
+      <canvas ref={baseRef} className={commonClass} style={{ zIndex }} />
+      <canvas ref={fxRef} className={commonClass} style={{ zIndex: zIndex + 1, mixBlendMode: 'screen' }} />
+    </>
+  );
 }
