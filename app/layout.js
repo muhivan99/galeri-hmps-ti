@@ -1,4 +1,3 @@
-// app/layout.js
 import './globals.css';
 import ThemeScript from '@/components/ThemeScript';
 import ThemeProvider from '@/components/ThemeProvider';
@@ -11,9 +10,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id" suppressHydrationWarning>
       <body className="min-h-dvh relative bg-[var(--bg)] text-[var(--text)] antialiased">
-        <ThemeScript />          {/* anti-flash, set data-theme lebih dulu */}
+        <ThemeScript />
         <ThemeProvider>
-          <NeonBackground />    {/* anim background, tema-aware */}
+          <NeonBackground />
           <Nav />
           <main className="relative z-10">{children}</main>
         </ThemeProvider>
