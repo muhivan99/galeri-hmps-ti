@@ -28,7 +28,9 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
   useEffect(() => {
     if (!paginate) return;
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) setVisible(v => Math.min(v + 9, allFiltered.length)); });
+      entries.forEach(e => {
+        if (e.isIntersecting) setVisible(v => Math.min(v + 9, allFiltered.length));
+      });
     });
     const el = loadMoreRef.current;
     if (el) io.observe(el);
@@ -43,12 +45,17 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
         <div className="flex flex-wrap gap-2 mb-6">
           {cats.map(cat => {
             const active = selectedCats.includes(cat);
+            const handleClick = () => {
+              setSelectedCats(
+                active
+                  ? selectedCats.filter(c => c !== cat)
+                  : [...selectedCats, cat]
+              );
+            };
             return (
               <button
                 key={cat}
-                onClick={() =>
-                  setSelectedCats(active ? selectedCats.filter(c => c !== cat) : [...selectedCats, cat])
-                }
+                onClick={handleClick}
                 className={`chip ${active ? 'is-active' : ''}`}
               >
                 <span className="text-sm">{cat}</span>
