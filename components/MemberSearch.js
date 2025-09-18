@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import SmartImage from '@/components/SmartImage';
 import Modal from '@/components/Modal';
 
-export default function MemberSearch({ divisions }){
+export default function MemberSearch({ divisions }) {
   const allMembers = useMemo(
     () => divisions.flatMap(d => d.members.map(m => ({ ...m, division: d.name }))),
     [divisions]
@@ -22,20 +22,32 @@ export default function MemberSearch({ divisions }){
 
   return (
     <div>
+      {/* INPUT: surface + warna ikut tema */}
       <input
         value={q}
         onChange={e => setQ(e.target.value)}
         placeholder="Cari nama / jabatan / divisi"
-        className="w-full mb-4 px-3 py-2 rounded-lg bg-white/10 outline-none"
         aria-label="Cari anggota"
+        className="
+          w-full mb-4 px-3 py-2 rounded-lg
+          bg-[var(--card)] border border-[var(--cardBorder)] backdrop-blur
+          text-[var(--text)] placeholder:text-[var(--muted)]
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60
+        "
       />
+
+      {/* GRID HASIL */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {res.map(m => (
           <button
             key={`${m.name}-${m.division}`}
             type="button"
             onClick={() => setSelected(m)}
-            className="text-left rounded-2xl p-4 bg-white/5 border border-white/10 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+            className="
+              card-surface p-4 text-left
+              hover:-translate-y-0.5 transition
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60
+            "
           >
             <div className="flex items-center gap-4">
               {m.photo && (
@@ -47,16 +59,19 @@ export default function MemberSearch({ divisions }){
                   className="h-14 w-14 rounded-xl object-cover"
                 />
               )}
-              <div>
-                <div className="text-white/90 font-medium leading-tight">{m.name}</div>
-                <div className="text-fuchsia-300/90 text-sm">{m.role}</div>
-                <div className="text-slate-400 text-xs mt-1">{m.division}</div>
+              <div className="min-w-0">
+                <div className="title-strong font-medium leading-tight truncate">
+                  {m.name}
+                </div>
+                <div className="text-sm text-muted truncate">{m.role}</div>
+                <div className="text-xs text-muted mt-1 truncate">{m.division}</div>
               </div>
             </div>
           </button>
         ))}
       </div>
 
+      {/* MODAL DETAIL */}
       <Modal open={!!selected} onClose={() => setSelected(null)} title={selected?.name}>
         {selected && (
           <div className="flex items-center gap-4">
@@ -69,10 +84,12 @@ export default function MemberSearch({ divisions }){
                 className="h-24 w-24 rounded-xl object-cover"
               />
             )}
-            <div>
-              <div className="text-white/90 text-lg font-medium">{selected.name}</div>
-              <div className="text-fuchsia-300/90">{selected.role}</div>
-              <div className="text-slate-400 text-sm">{selected.division}</div>
+            <div className="min-w-0">
+              <div className="title-strong text-lg font-semibold truncate">
+                {selected.name}
+              </div>
+              <div className="text-muted truncate">{selected.role}</div>
+              <div className="text-sm text-muted truncate">{selected.division}</div>
             </div>
           </div>
         )}
