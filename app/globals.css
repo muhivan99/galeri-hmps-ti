@@ -44,5 +44,33 @@ body { background: var(--bg); }
 .logo-orbit-flow img { display: block; }
 @media (prefers-reduced-motion: reduce){ .logo-orbit-flow { will-change: auto; } }
 
+:root{
+  --bg: #f6f7fb;
+  --text: #0b1220;
+  --muted: #5b6475;
+  --card: rgba(255,255,255,0.78);
+
+  /* neon (light) */
+  --neon1: #6d28d9;
+  --neon2: #0891b2;
+  --neon3: #2563eb;
+}
+
+.dark{
+  --bg: radial-gradient(1200px 600px at 10% -10%, #10162b, #0b0f1c) fixed;
+  --text: #e5ecff;
+  --muted: #aab6d3;
+  --card: rgba(255,255,255,0.06);
+
+  /* neon (dark) */
+  --neon1: #f0abfc;
+  --neon2: #67e8f9;
+  --neon3: #60a5fa;
+}
+
+/* apply global */
+body { background: var(--bg); color: var(--text); }
+
+
 
 
