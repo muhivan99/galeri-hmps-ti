@@ -30,8 +30,8 @@ export default function Hero({ stats }) {
           <div className="hidden md:flex items-center justify-end md:self-center">
             <LogoStardustOrbit
             src="/logos/organisasi.png"
-            size={280}
-            particles={120}    // ini sudah adaptif mobile otomatis
+            size={260}
+            particles={100}    // ini sudah adaptif mobile otomatis
             comets={1}         // 1 komet cukup, hemat GPU
             speed={0.7}
             inner={0.28}
