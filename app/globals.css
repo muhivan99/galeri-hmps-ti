@@ -1,4 +1,4 @@
-/* Tailwind layers */
+/* ===== Tailwind layers ===== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,12 +7,12 @@
    THEME TOKENS
    - Default: DARK (di :root)
    - Light: override di [data-theme="light"]
-   - Palet neon varian opsional (aurora/limesky/sunset)
+   - Variasi neon opsional (aurora/limesky/sunset)
    ========================================================= */
 
 /* === DARK (default) === */
-:root {
-  /* background + teks */
+:root{
+  /* base colors */
   --bg: radial-gradient(1200px 600px at 10% -10%, #10162b, #0b0f1c) fixed;
   --text: #e5ecff;
   --muted: #aab6d3;
@@ -30,18 +30,29 @@
   --chipText: #e5ecff;
   --chipRing: 0 0 0 2px rgba(103,232,249,.18), 0 14px 40px -24px rgba(103,232,249,.45);
 
-  /* untuk canvas background (NeonBackground) */
+  /* canvas background (NeonBackground) */
   --bgDot: rgba(255,255,255,.65);
   --bgLine: rgba(255,255,255,.08);
+
+  /* NAV (dark) */
+  --navBg: rgba(8,11,24,.45);
+  --navBorder: rgba(255,255,255,.10);
+  --navLink: #cbd5e1;
+  --navLinkHover: #ffffff;
+  --brandFrom:#a78bfa;       /* brand gradient text */
+  --brandTo:#22d3ee;
+
+  /* Tech grid */
+  --gridColor: rgba(255,255,255,.06);
 }
 
 /* Variasi palet neon (opsional) */
 [data-theme="aurora"] { --neon1:#f0abfc; --neon2:#67e8f9; --neon3:#60a5fa; }
-[data-theme="limesky"] { --neon1:#bef264; --neon2:#38bdf8; --neon3:#22d3ee; }
-[data-theme="sunset"]  { --neon1:#fb7185; --neon2:#f59e0b; --neon3:#f97316; }
+[data-theme="limesky"]{ --neon1:#bef264; --neon2:#38bdf8; --neon3:#22d3ee; }
+[data-theme="sunset"] { --neon1:#fb7185; --neon2:#f59e0b; --neon3:#f97316; }
 
-/* === LIGHT === */
-[data-theme="light"] {
+/* === LIGHT (Glow) === */
+[data-theme="light"]{
   --bg: linear-gradient(180deg,#f5f7ff 0%,#edf2ff 100%);
   --text: #0b1220;
   --muted: #5b6475;
@@ -50,64 +61,51 @@
   --cardBorder: rgba(15,23,42,.10);
   --cardShadow: 0 18px 60px -28px rgba(15,23,42,.35);
 
-  /* neon dibuat sedikit lebih dalam agar kontras */
+  /* neon dibikin sedikit lebih dalam biar kontras */
   --neon1:#6d28d9; --neon2:#0e7490; --neon3:#2563eb;
 
   --chipBg: rgba(255,255,255,.92);
   --chipText: #0b1220;
   --chipRing: 0 0 0 2px rgba(14,116,144,.15), 0 10px 30px -18px rgba(2,132,199,.35);
 
-  /* partikel/garis untuk canvas background */
+  /* NeonBackground */
   --bgDot: rgba(0,0,0,.55);
   --bgLine: rgba(0,0,0,.08);
+
+  /* NAV (light) */
+  --navBg: rgba(255,255,255,.62);
+  --navBorder: rgba(15,23,42,.10);
+  --navLink: #0b1220;
+  --navLinkHover: #1e293b;
+  --brandFrom:#0ea5e9;
+  --brandTo:#1d4ed8;
+
+  /* Tech grid */
+  --gridColor: rgba(2,6,23,.06);
 }
 
 /* Terapkan warna dasar */
-body {
+body{
   background: var(--bg);
   color: var(--text);
-}
-
-[data-theme="light"], [data-theme="glow"] {
-  --bg: linear-gradient(180deg,#f5f7ff 0%,#edf2ff 100%);
-  --text: #0b1220;
-  --muted: #5b6475;
-  --card: rgba(255,255,255,0.86);
-  --cardBorder: rgba(15,23,42,.10);
-  --cardShadow: 0 18px 60px -28px rgba(15,23,42,.35);
-  --neon1:#6d28d9; --neon2:#0e7490; --neon3:#2563eb;
-  --chipBg: rgba(255,255,255,.92);
-  --chipText: #0b1220;
-  --chipRing: 0 0 0 2px rgba(14,116,144,.15), 0 10px 30px -18px rgba(2,132,199,.35);
-  --bgDot: rgba(0,0,0,.55);
-  --bgLine: rgba(0,0,0,.08);
 }
 
 /* =========================================================
    Aksesibilitas & perf
    ========================================================= */
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation:none!important; transition:none!important; scroll-behavior:auto!important; }
 }
 
-/* Skip link (A11y) */
-.skip-link {
-  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
-}
-.skip-link:focus {
-  left: 1rem; top: 1rem; width:auto; height:auto;
-  padding:.5rem .75rem; background:#111827; color:white;
-  border-radius:.5rem; z-index:50;
+/* Skip link */
+.skip-link{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.skip-link:focus{
+  left:1rem; top:1rem; width:auto; height:auto;
+  padding:.5rem .75rem; background:#111827; color:#fff; border-radius:.5rem; z-index:50;
 }
 
 /* =========================================================
-   Komponen util: neon, skeleton, card, chip, teks
+   Util & komponen kecil (tema-aware)
    ========================================================= */
 
 /* Neon gradient text */
@@ -115,35 +113,32 @@ body {
   background: linear-gradient(90deg,var(--neon1),var(--neon2),var(--neon3));
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
+.neon-ring{ box-shadow:0 0 40px var(--neon1), 0 0 80px var(--neon2) }
 
-/* Ring neon lembut */
-.neon-ring{ box-shadow:0 0 40px var(--neon1),0 0 80px var(--neon2) }
-
-/* Glow kartu general (opsional / lama) */
+/* Glow lama (opsional) */
 .card-glow{
   background:rgba(255,255,255,.05);
   backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.1);
-  box-shadow:0 0 30px #7c3aed55,0 0 60px #06b6d455;
+  box-shadow:0 0 30px #7c3aed55, 0 0 60px #06b6d455;
 }
 
-/* Skeleton shimmer */
-.skeleton { position:relative; overflow:hidden; background: rgba(255,255,255,0.06); }
+/* Skeleton */
+.skeleton{ position:relative; overflow:hidden; background: rgba(255,255,255,0.06); }
 .skeleton::after{
-  content:""; position:absolute; inset:0;
-  transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
-  animation: shimmer 1.2s infinite;
+  content:""; position:absolute; inset:0; transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:shimmer 1.2s infinite;
 }
-@keyframes shimmer { 100% { transform: translateX(100%); } }
+@keyframes shimmer{ 100%{ transform:translateX(100%); } }
 
-/* Untuk komponen orbit logo */
-.logo-orbit-flow { isolation: isolate; }
-.logo-orbit-flow img { display: block; }
-@media (prefers-reduced-motion: reduce){ .logo-orbit-flow { will-change: auto; } }
+/* Logo orbit perf hint */
+.logo-orbit-flow{ isolation:isolate; }
+.logo-orbit-flow img{ display:block; }
+@media (prefers-reduced-motion: reduce){ .logo-orbit-flow{ will-change:auto; } }
 
-/* Surface / card util (tema-aware) */
-.card-surface {
+/* Surface util */
+.card-surface{
   background: var(--card);
   border: 1px solid var(--cardBorder);
   backdrop-filter: blur(8px);
@@ -151,14 +146,14 @@ body {
   border-radius: 16px;
   transition: transform .12s ease, box-shadow .2s ease;
 }
-.card-surface:hover { transform: translateY(-1px); }
+.card-surface:hover{ transform: translateY(-1px); }
 
-/* Teks util */
-.title-strong { color: var(--text); }
-.text-muted  { color: var(--muted); }
+/* Text util */
+.title-strong{ color: var(--text); }
+.text-muted{ color: var(--muted); }
 
 /* Chip (filter pill) */
-.chip {
+.chip{
   display:inline-flex; align-items:center; gap:.5rem;
   padding:.4rem .8rem; border-radius:9999px;
   background: var(--chipBg); color: var(--chipText);
@@ -166,7 +161,56 @@ body {
   box-shadow: var(--chipRing);
   transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
 }
-.chip:hover { transform: translateY(-1px); }
-.chip.is-active {
+.chip:hover{ transform: translateY(-1px); }
+.chip.is-active{
   box-shadow: 0 0 0 2px rgba(99,102,241,.3), 0 14px 44px -24px rgba(99,102,241,.5);
 }
+
+/* =========================================================
+   NAVBAR Glass + Brand Gradient (tema-aware)
+   ========================================================= */
+.glass-nav{
+  background: var(--navBg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--navBorder);
+  transition: box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+.nav-scrolled{ box-shadow: 0 10px 30px -18px rgba(2,6,23,.35); }
+
+.brand-grad{
+  background: linear-gradient(90deg, var(--brandFrom), var(--brandTo));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+.nav-link{
+  color: var(--navLink);
+  padding:.4rem .75rem; border-radius:.5rem;
+  transition: color .15s ease, background .15s ease;
+}
+.nav-link:hover,
+.nav-link[aria-current="page"]{
+  color: var(--navLinkHover);
+  background: color-mix(in oklab, var(--navBg) 70%, transparent);
+}
+
+/* =========================================================
+   BACKGROUND: Tech Grid overlay (ringan & tema-aware)
+   ========================================================= */
+.tech-grid{
+  position:fixed; inset:0; z-index:-10; pointer-events:none; opacity:.7;
+}
+.tech-grid::before{
+  content:""; position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg,  transparent 0 23px, var(--gridColor) 23px 24px),
+    repeating-linear-gradient(90deg, transparent 0 23px, var(--gridColor) 23px 24px);
+}
+.tech-grid::after{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(700px 700px at 10% -10%,  color-mix(in oklab, var(--neon2) 35%, transparent) 0%, transparent 60%),
+    radial-gradient(800px 800px at 110% 110%, color-mix(in oklab, var(--neon3) 35%, transparent) 0%, transparent 60%);
+  mix-blend-mode: soft-light;
+  opacity:.25;
+}
+[data-theme="light"] .tech-grid{ opacity:.45; }
