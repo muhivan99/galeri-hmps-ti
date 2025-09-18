@@ -22,19 +22,13 @@ import SEO from '@/components/SEO';
 import SkipLink from '@/components/SkipLink';
 import PWA from '@/components/PWA';
 import ThemeScript from '@/components/ThemeScript';
+import ThemeProvider from '@/components/ThemeProvider';
 
-export default function RootLayout({ children }){
+export default function RootLayout({ children }) {
   return (
-    <html lang="id" suppressHydrationWarning>
-      <body className="text-slate-200 selection:bg-fuchsia-500/30">
-        <SEO />
-        <ThemeScript />
-        <PWA />
-        <NeonBackground />
-        <SkipLink />
-        <Nav />
-        <main id="main">{children}</main>
-        <Footer />
+    <html lang="id">
+      <body className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
