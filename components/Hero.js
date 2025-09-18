@@ -11,11 +11,11 @@ export default function Hero({ stats }) {
       <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="grid md:grid-cols-[1fr,400px] gap-10">
           <div>
-            <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-white">
+            <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-slate-900 dark:text-white">
               <span className="neon-text">Galeri Kegiatan &amp; Struktur Organisasi</span><br />
-              <span className="text-slate-300">Dari Mahasiswa, untuk warga bergerak nyata.</span>
+              <span className="text-slate-600 dark:text-slate-300">Dari Mahasiswa, untuk warga bergerak nyata.</span>
             </h1>
-            <p className="max-w-2xl mt-4 text-slate-300/90">
+            <p className="max-w-2xl mt-4 text-slate-600 dark:text-slate-300/90">
               Di sini, setiap ide dihargai, setiap algoritma diperdebatkan, dan setiap solusi diciptakan bersama.
             </p>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -48,9 +48,11 @@ export default function Hero({ stats }) {
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded-2xl p-4 text-center bg-white/5 backdrop-blur border border-white/10 neon-ring">
-      <div className="text-2xl font-semibold text-white">{value}</div>
-      <div className="text-slate-400 text-sm">{label}</div>
+    <div className="rounded-2xl p-4 text-center backdrop-blur
+                    bg-[var(--card)] dark:bg-white/5
+                    border border-black/10 dark:border-white/10 neon-ring">
+      <div className="text-2xl font-semibold text-slate-900 dark:text-white">{value}</div>
+      <div className="text-slate-600 dark:text-slate-400 text-sm">{label}</div>
     </div>
   );
 }
