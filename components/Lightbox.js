@@ -1,13 +1,24 @@
 // components/Lightbox.js
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
   const open = index >= 0 && index < items.length;
   const overlayRef = useRef(null);
 
-  // Body scroll lock + key controls
+  // Ambil item aktif
+  const curr = open ? items[index] : null;
+
+  // fallback nama file bila title kosong
+  const fileName = useMemo(() => {
+    if (!curr) return '';
+    if (curr.title) return curr.title;
+    const raw = (curr.src || curr.image || curr.url || '').split('?')[0];
+    try { return decodeURIComponent(raw.split('/').pop() || ''); }
+    catch { return raw.split('/').pop() || ''; }
+  }, [curr]);
+
   useEffect(() => {
     if (!open) return;
     const prevOverflow = document.body.style.overflow;
@@ -25,8 +36,7 @@ export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
     };
   }, [open, index, items.length, onClose, onIndex]);
 
-  if (!open) return null;
-  const curr = items[index];
+  if (!open || !curr) return null;
 
   const prev = () => onIndex?.((index - 1 + items.length) % items.length);
   const next = () => onIndex?.((index + 1) % items.length);
@@ -35,14 +45,11 @@ export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
     <div
       ref={overlayRef}
       className="fixed inset-0 z-[80] bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4"
-      onMouseDown={(e) => {
-        // close kalau klik area overlay (bukan konten)
-        if (e.target === overlayRef.current) onClose?.();
-      }}
+      onMouseDown={(e) => { if (e.target === overlayRef.current) onClose?.(); }}
       role="dialog"
       aria-modal="true"
     >
-      {/* Close */}
+      {/* tombol close */}
       <button
         onClick={onClose}
         aria-label="Tutup"
@@ -51,7 +58,7 @@ export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
         <X className="h-5 w-5" />
       </button>
 
-      {/* Prev/Next */}
+      {/* panah prev/next */}
       {items.length > 1 && (
         <>
           <button
@@ -71,7 +78,7 @@ export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
         </>
       )}
 
-      {/* Frame gambar: fit viewport */}
+      {/* gambar selalu fit viewport */}
       <figure className="relative">
         <img
           src={curr.src || curr.image || curr.url}
@@ -79,20 +86,53 @@ export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
           draggable="false"
           className="
             block
-            max-h-[90vh] 
+            max-h-[90vh]
             max-w-[min(92vw,1100px)]
-            w-auto h-auto 
+            w-auto h-auto
             object-contain
-            rounded-2xl 
-            shadow-2xl 
+            rounded-2xl
+            shadow-2xl
             bg-black/10
           "
         />
-        {(curr.title || curr.desc) && (
-          <figcaption className="mt-3 text-center text-sm text-white/90">
-            {curr.title || curr.desc}
+
+        {/* CAPTION: nama file/judul, kategori, deskripsi */}
+        {(fileName || curr.category || curr.desc) && (
+          <figcaption
+            className="
+              mt-3 mx-auto max-w-[min(92vw,1100px)]
+              text-center text-white
+            "
+          >
+            {/* Judul / nama file */}
+            {fileName && (
+              <div className="font-semibold text-base sm:text-lg leading-tight">
+                {fileName}
+              </div>
+            )}
+
+            {/* Kategori (pill) */}
+            {curr.category && (
+              <div className="mt-1">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs sm:text-sm bg-white/15 text-cyan-200 border border-white/20">
+                  {curr.category}
+                </span>
+              </div>
+            )}
+
+            {/* Deskripsi */}
+            {curr.desc && (
+              <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/85">
+                {curr.desc}
+              </p>
+            )}
           </figcaption>
         )}
+
+        {/* indikator index */}
+        <div className="mt-2 text-center text-xs text-white/70">
+          {index + 1} / {items.length}
+        </div>
       </figure>
     </div>
   );
