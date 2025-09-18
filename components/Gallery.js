@@ -30,9 +30,13 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setVisible(v => Math.min(v + 9, allFiltered.length)); });
     });
-    if (loadMoreRef.current) io.observe(loadMoreRef.current);
+    const el = loadMoreRef.current;
+    if (el) io.observe(el);
     return () => io.disconnect();
   }, [allFiltered, paginate]);
+
+  const toggleCat = (cat, active) =>
+    setSelectedCats(active ? selectedCats.filter(c => c !== cat) : [...selectedCats, cat]);
 
   const gridItems = allFiltered.slice(0, visible);
 
@@ -45,10 +49,8 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
             return (
               <button
                 key={cat}
-                onClick={() =>
-                  setSelectedCats(active ? selectedCats.filter(c => c !== cat) : [...selectedCats, cat])
-                }
-                className={`chip ${active ? 'is-active' : ''}`}   {/* ⬅️ pill mewah, tema-aware */}
+                onClick={() => toggleCat(cat, active)}
+                className={`chip ${active ? 'is-active' : ''}`}
               >
                 <span className="text-sm">{cat}</span>
               </button>
@@ -73,7 +75,7 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
               <div
                 className="
                   relative overflow-hidden rounded-2xl
-                  border border-[var(--cardBorder)]  /* ⬅️ border mengikuti tema */
+                  border border-[var(--cardBorder)]
                   hover:-translate-y-0.5 transition
                 "
               >
@@ -92,3 +94,25 @@ export default function Gallery({ items, enableFilters=false, paginate=false }){
                   "
                 >
                   <span className="truncate">{g.title}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/15 text-white/95 backdrop-blur">
+                    {g.category}
+                  </span>
+                </figcaption>
+              </div>
+            </button>
+          </figure>
+        ))}
+      </div>
+
+      {paginate && visible < allFiltered.length && (
+        <div ref={loadMoreRef} className="h-10 grid place-items-center text-muted text-sm mt-4">
+          Memuat lagi…
+        </div>
+      )}
+
+      {lbIndex >= 0 && (
+        <Lightbox items={gridItems} index={lbIndex} onClose={() => setLbIndex(-1)} onIndex={setLbIndex} />
+      )}
+    </div>
+  );
+}
