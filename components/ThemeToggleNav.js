@@ -9,12 +9,12 @@ export default function ThemeToggleNav({ compact = false }) {
   if (!mounted) return null;
 
   const isDark = resolvedTheme === 'dark';
-  const onClick = () => setTheme(isDark ? 'light' : 'dark');
+  const next = () => setTheme(isDark ? 'light' : 'dark');
 
   if (compact) {
     return (
       <button
-        onClick={onClick}
+        onClick={next}
         aria-label={`Switch ke tema ${isDark ? 'terang' : 'gelap'}`}
         className="rounded-lg px-3 py-2 border border-black/10 dark:border-white/10
                    bg-white/70 dark:bg-white/5 hover:bg-white/90 dark:hover:bg-white/10
@@ -25,10 +25,9 @@ export default function ThemeToggleNav({ compact = false }) {
     );
   }
 
-  // pill Glow | Gelap
   return (
     <button
-      onClick={onClick}
+      onClick={next}
       className="relative inline-flex items-center h-9 w-[112px] rounded-full
                  border border-black/10 dark:border-white/10
                  bg-white/70 dark:bg-white/5 transition hover:bg-white/90 dark:hover:bg-white/10
