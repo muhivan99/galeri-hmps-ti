@@ -1,36 +1,118 @@
+/* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* THEME VARS */
+/* =========================================================
+   THEME TOKENS
+   - Default: DARK (di :root)
+   - Light: override di [data-theme="light"]
+   - Palet neon varian opsional (aurora/limesky/sunset)
+   ========================================================= */
+
+/* === DARK (default) === */
 :root {
-  --bg:#070814;
+  /* background + teks */
+  --bg: radial-gradient(1200px 600px at 10% -10%, #10162b, #0b0f1c) fixed;
+  --text: #e5ecff;
+  --muted: #aab6d3;
+
+  /* surface */
+  --card: rgba(255,255,255,0.06);
+  --cardBorder: rgba(255,255,255,.12);
+  --cardShadow: 0 0 70px -24px rgba(96,165,250,.55);
+
+  /* neon */
   --neon1:#f0abfc; --neon2:#67e8f9; --neon3:#60a5fa;
+
+  /* chip */
+  --chipBg: rgba(255,255,255,.06);
+  --chipText: #e5ecff;
+  --chipRing: 0 0 0 2px rgba(103,232,249,.18), 0 14px 40px -24px rgba(103,232,249,.45);
+
+  /* untuk canvas background (NeonBackground) */
+  --bgDot: rgba(255,255,255,.65);
+  --bgLine: rgba(255,255,255,.08);
 }
+
+/* Variasi palet neon (opsional) */
 [data-theme="aurora"] { --neon1:#f0abfc; --neon2:#67e8f9; --neon3:#60a5fa; }
 [data-theme="limesky"] { --neon1:#bef264; --neon2:#38bdf8; --neon3:#22d3ee; }
-[data-theme="sunset"] { --neon1:#fb7185; --neon2:#f59e0b; --neon3:#f97316; }
+[data-theme="sunset"]  { --neon1:#fb7185; --neon2:#f59e0b; --neon3:#f97316; }
 
-body { background: var(--bg); }
+/* === LIGHT === */
+[data-theme="light"] {
+  --bg: linear-gradient(180deg,#f5f7ff 0%,#edf2ff 100%);
+  --text: #0b1220;
+  --muted: #5b6475;
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  --card: rgba(255,255,255,0.86);
+  --cardBorder: rgba(15,23,42,.10);
+  --cardShadow: 0 18px 60px -28px rgba(15,23,42,.35);
+
+  /* neon dibuat sedikit lebih dalam agar kontras */
+  --neon1:#6d28d9; --neon2:#0e7490; --neon3:#2563eb;
+
+  --chipBg: rgba(255,255,255,.92);
+  --chipText: #0b1220;
+  --chipRing: 0 0 0 2px rgba(14,116,144,.15), 0 10px 30px -18px rgba(2,132,199,.35);
+
+  /* partikel/garis untuk canvas background */
+  --bgDot: rgba(0,0,0,.55);
+  --bgLine: rgba(0,0,0,.08);
 }
 
-/* Skip link */
-.skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-.skip-link:focus { left: 1rem; top: 1rem; width:auto; height:auto; padding:.5rem .75rem; background:#111827; color:white; border-radius:.5rem; z-index:50; }
+/* Terapkan warna dasar */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
 
-/* Neon */
+/* =========================================================
+   Aksesibilitas & perf
+   ========================================================= */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip link (A11y) */
+.skip-link {
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus {
+  left: 1rem; top: 1rem; width:auto; height:auto;
+  padding:.5rem .75rem; background:#111827; color:white;
+  border-radius:.5rem; z-index:50;
+}
+
+/* =========================================================
+   Komponen util: neon, skeleton, card, chip, teks
+   ========================================================= */
+
+/* Neon gradient text */
 .neon-text{
   background: linear-gradient(90deg,var(--neon1),var(--neon2),var(--neon3));
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
-.neon-ring{ box-shadow:0 0 40px var(--neon1),0 0 80px var(--neon2) }
-.card-glow{ background:rgba(255,255,255,.05); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.1); box-shadow:0 0 30px #7c3aed55,0 0 60px #06b6d455 }
 
-/* Skeleton */
+/* Ring neon lembut */
+.neon-ring{ box-shadow:0 0 40px var(--neon1),0 0 80px var(--neon2) }
+
+/* Glow kartu general (opsional / lama) */
+.card-glow{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 0 30px #7c3aed55,0 0 60px #06b6d455;
+}
+
+/* Skeleton shimmer */
 .skeleton { position:relative; overflow:hidden; background: rgba(255,255,255,0.06); }
 .skeleton::after{
   content:""; position:absolute; inset:0;
@@ -40,65 +122,27 @@ body { background: var(--bg); }
 }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 
+/* Untuk komponen orbit logo */
 .logo-orbit-flow { isolation: isolate; }
 .logo-orbit-flow img { display: block; }
 @media (prefers-reduced-motion: reduce){ .logo-orbit-flow { will-change: auto; } }
 
-/* === Light (Glow) === */
-:root{
-  --bg: linear-gradient(180deg,#f5f7ff 0%,#edf2ff 100%);
-  --text: #0b1220;          /* teks utama GELAP di light */
-  --muted: #5b6475;         /* teks sekunder */
-  --card: rgba(255,255,255,0.86);
-  --cardBorder: rgba(15,23,42,.10);
-  --cardShadow: 0 18px 60px -28px rgba(15,23,42,.35);
-
-  /* neon utk efek (tone sedikit lebih dalam di light) */
-  --neon1:#6d28d9; --neon2:#0e7490; --neon3:#2563eb;
-
-  /* chip (filter pill) */
-  --chipBg: rgba(255,255,255,.92);
-  --chipText: #0b1220;
-  --chipRing: 0 0 0 2px rgba(14,116,144,.15), 0 10px 30px -18px rgba(2,132,199,.35);
-}
-
-.card-surface{ transition: transform .12s ease, box-shadow .2s ease; }
-.card-surface:hover{ transform: translateY(-1px); }
-
-.chip{ transition: transform .15s ease, box-shadow .2s ease, background .2s ease; }
-.chip:hover{ transform: translateY(-1px); }
-
-/* === Dark (default) === */
-.dark{
-  --bg: radial-gradient(1200px 600px at 10% -10%, #10162b, #0b0f1c) fixed;
-  --text: #e5ecff;
-  --muted: #aab6d3;
-  --card: rgba(255,255,255,0.06);
-  --cardBorder: rgba(255,255,255,.12);
-  --cardShadow: 0 0 70px -24px rgba(96,165,250,.55);
-
-  --neon1:#f0abfc; --neon2:#67e8f9; --neon3:#60a5fa;
-
-  --chipBg: rgba(255,255,255,.06);
-  --chipText: #e5ecff;
-  --chipRing: 0 0 0 2px rgba(103,232,249,.18), 0 14px 40px -24px rgba(103,232,249,.45);
-}
-
-/* apply bg+text agar gak “putih semua” */
-body { background: var(--bg); color: var(--text); }
-
-/* ===== util kelas biar konsisten di semua page ===== */
+/* Surface / card util (tema-aware) */
 .card-surface {
   background: var(--card);
   border: 1px solid var(--cardBorder);
   backdrop-filter: blur(8px);
   box-shadow: var(--cardShadow);
   border-radius: 16px;
+  transition: transform .12s ease, box-shadow .2s ease;
 }
-.title-strong { color: var(--text); }
-.text-muted { color: var(--muted); }
+.card-surface:hover { transform: translateY(-1px); }
 
-/* chip untuk filter kategori */
+/* Teks util */
+.title-strong { color: var(--text); }
+.text-muted  { color: var(--muted); }
+
+/* Chip (filter pill) */
 .chip {
   display:inline-flex; align-items:center; gap:.5rem;
   padding:.4rem .8rem; border-radius:9999px;
@@ -111,16 +155,3 @@ body { background: var(--bg); color: var(--text); }
 .chip.is-active {
   box-shadow: 0 0 0 2px rgba(99,102,241,.3), 0 14px 44px -24px rgba(99,102,241,.5);
 }
-
-/* background overlay tipis (bintang2 halus) utk DUA tema */
-.site-bg::before{
-  content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
-  background:
-    radial-gradient(900px 450px at 15% -5%, rgba(99,102,241,.10), transparent 60%),
-    radial-gradient(800px 420px at 80% 110%, rgba(56,189,248,.10), transparent 60%);
-  opacity:.55;      /* dark: kuat, light: tetap subtle */
-}
-
-
-
-
