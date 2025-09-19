@@ -1,58 +1,111 @@
 // app/about/page.js
 import {
-  Cpu, BookOpen, Building2, Server, DoorOpen, ShieldCheck, CheckCircle2, CalendarClock
+  Cpu, BookOpen, Building2, Server, DoorOpen, ShieldCheck,
+  CheckCircle2, CalendarClock, Workflow, Users, Sparkles
 } from 'lucide-react';
 
 export const metadata = { title: 'Tentang HMPS TI' };
 
+// ====== DATA ======
 const timeline = [
   { year: '2018', title: 'Pembentukan Awal', desc: 'HMPS TI berdiri sebagai wadah kolaborasi, pengabdian masyarakat, dan pengembangan skill teknologi.' },
   { year: '2020', title: 'Digitalisasi Arsip', desc: 'Mulai menerapkan pengelolaan dokumen & inventaris berbasis cloud agar rapi dan mudah dilacak.' },
-  { year: '2022', title: 'Sistem Kegiatan & Gallery', desc: 'Dokumentasi kegiatan dipublikasikan terstruktur dengan metadata kategori & deskripsi.' },
-  { year: '2024', title: 'Standardisasi Operasional', desc: 'Alur peminjaman, jadwal piket, dan SOP sekretariatan disusun agar operasional makin tertib.' },
+  { year: '2022', title: 'Sistem Kegiatan & Galeri', desc: 'Dokumentasi kegiatan dipublikasikan terstruktur dengan kategori & deskripsi.' },
+  { year: '2024', title: 'Standardisasi Operasional', desc: 'SOP sekretariatan, alur peminjaman, dan jadwal piket disusun agar operasional makin tertib.' },
 ];
 
 const rules = [
   'Jam akses 08.00–21.00 (di luar itu wajib izin pengurus inti).',
-  'Kunci ruang dipinjam via pengurus jaga; catat nama, keperluan, dan waktu keluar/masuk.',
+  'Kunci ruang dipinjam via pengurus jaga; catat nama, keperluan, waktu keluar/masuk.',
   'Jaga kebersihan: meja rapi, sampah dibuang, kabel tidak berserakan.',
-  'Perangkat (PC/monitor/alat elektronik) hanya untuk kegiatan organisasi—login gunakan akun organisasi.',
-  'Peminjaman inventaris wajib di-entry pada buku/lembar peminjaman dan dikembalikan sesuai tenggat.',
-  'Makanan/minuman jauhkan dari perangkat; gunakan area makan yang disediakan.',
+  'Perangkat hanya untuk kegiatan organisasi—login gunakan akun organisasi.',
+  'Peminjaman inventaris wajib tercatat dan dikembalikan sesuai tenggat.',
+  'Makanan/minuman jauhkan dari perangkat; gunakan area makan.',
   'Hemat listrik: matikan AC, lampu, dan perangkat setelah dipakai.',
-  'Tamu/visitor wajib didampingi anggota; dilarang membawa barang non-izin masuk ke ruang.',
-  'Piket bertanggung jawab terhadap kebersihan harian dan checklist peralatan.',
-  'Keadaan darurat: amankan listrik utama, evakuasi sesuai denah, lalu hubungi pengurus inti.',
+  'Tamu wajib didampingi anggota; dilarang membawa barang non-izin.',
+  'Piket bertanggung jawab kebersihan harian & checklist peralatan.',
+  'Darurat: amankan listrik utama, evakuasi sesuai denah, hubungi pengurus.',
 ];
 
+const missions = [
+  'Membangun budaya belajar berkelanjutan & kolaboratif.',
+  'Mendorong karya nyata: riset mini, open source, maupun pengabdian.',
+  'Menjaga tata kelola rapi: dokumentasi, arsip, dan SOP yang hidup.',
+  'Menghubungkan mahasiswa dengan industri/komunitas teknologi.',
+];
+
+const programs = [
+  { icon: <Sparkles/>, title: 'Tech Workshop Series', desc: 'Sesi rutin seputar web, AI, UI/UX, DevOps, dan best practices.' },
+  { icon: <Users/>,    title: 'Community Impact',     desc: 'Kegiatan sosial—literasi digital, pendampingan UMKM, & pelatihan siswa.' },
+  { icon: <Workflow/>, title: 'Project Incubator',     desc: 'Kolaborasi lintas angkatan untuk bikin mini–project sampai rilis.' },
+];
+
+// ====== PAGE ======
 export default function AboutPage() {
   return (
     <main className="relative">
       {/* Hero */}
       <section className="container mx-auto px-4 pt-8 sm:pt-12">
+        {/* ⬇️ label diganti: Versi lengkap */}
         <p className="text-sm text-muted flex items-center gap-2">
-          <CalendarClock className="h-4 w-4" /> Versi ringkas • mengikuti tema gelap/terang
+          <CalendarClock className="h-4 w-4" /> Versi lengkap • mengikuti tema gelap/terang
         </p>
+
         <h1 className="mt-2 text-3xl sm:text-4xl font-bold">
           Tentang <span className="neon-text">HMPS Teknik Informatika</span>
         </h1>
+
         <p className="mt-3 text-muted max-w-3xl">
           Organisasi mahasiswa yang bergerak di bidang teknologi, kolaborasi, dan pengabdian.
-          Fokus kami: budaya belajar yang sustainable, eksekusi kegiatan yang rapi, dan dokumentasi yang dapat dilacak.
+          Fokus kami: budaya belajar yang sustainable, eksekusi kegiatan rapi, dan dokumentasi yang
+          dapat dilacak—biar tiap generasi nggak mulai dari nol.
         </p>
 
         <div className="mt-6 grid sm:grid-cols-3 gap-3">
           {[
-            { icon: <BookOpen/>, k: 'Sejarah', v: '2018–sekarang' },
-            { icon: <ShieldCheck/>, k: 'SOP & Dokumen', v: 'Tertata' },
-            { icon: <Cpu/>, k: 'Fokus', v: 'Teknologi & Sosial' },
-          ].map((s,i)=>(
+            { icon: <BookOpen/>, label: 'Sejarah', value: '2018–sekarang' },
+            { icon: <ShieldCheck/>, label: 'SOP & Dokumen', value: 'Tertata' },
+            { icon: <Cpu/>, label: 'Fokus', value: 'Teknologi & Sosial' },
+          ].map((s, i) => (
             <div key={i} className="card-surface p-4 flex items-center gap-3">
               <div className="p-2 rounded-xl bg-white/10 text-cyan-300">{s.icon}</div>
               <div>
-                <div className="text-sm text-muted">{s.k}</div>
-                <div className="text-lg font-semibold">{s.v}</div>
+                <div className="text-sm text-muted">{s.label}</div>
+                <div className="text-lg font-semibold">{s.value}</div>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Visi & Misi */}
+      <section className="container mx-auto px-4 mt-10 sm:mt-14">
+        <h2 className="text-2xl font-semibold">Visi & Misi</h2>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="card-surface p-5">
+            <div className="font-semibold mb-1">Visi</div>
+            <p className="text-muted">
+              Menjadi organisasi mahasiswa TI yang adaptif, berdampak, dan bertata kelola rapi—berbasis teknologi
+              serta kolaborasi lintas elemen kampus & masyarakat.
+            </p>
+          </div>
+          <div className="card-surface p-5">
+            <div className="font-semibold mb-1">Misi</div>
+            <ul className="text-muted list-disc ml-5 space-y-1">
+              {missions.map((m, i)=> <li key={i}>{m}</li>)}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Program Unggulan */}
+      <section className="container mx-auto px-4 mt-10 sm:mt-14">
+        <h2 className="text-2xl font-semibold">Program & Kegiatan Unggulan</h2>
+        <div className="mt-4 grid md:grid-cols-3 gap-4">
+          {programs.map((p, i)=>(
+            <div key={i} className="card-surface p-5">
+              <div className="flex items-center gap-2 mb-2 text-cyan-300">{p.icon}<span className="font-semibold">{p.title}</span></div>
+              <p className="text-muted">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -60,14 +113,12 @@ export default function AboutPage() {
 
       {/* Timeline */}
       <section className="container mx-auto px-4 mt-10 sm:mt-14">
-        <h2 className="text-2xl font-semibold">Sejarah Singkat</h2>
+        <h2 className="text-2xl font-semibold">Sejarah Organisasi</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {timeline.map((t,i)=>(
             <div key={i} className="card-surface p-5">
               <div className="flex items-center gap-2">
-                <span className="text-sm px-2 py-0.5 rounded-full bg-white/10 text-cyan-300 border border-white/15">
-                  {t.year}
-                </span>
+                <span className="text-sm px-2 py-0.5 rounded-full bg-white/10 text-cyan-300 border border-white/15">{t.year}</span>
                 <span className="font-semibold">{t.title}</span>
               </div>
               <p className="text-muted mt-2">{t.desc}</p>
@@ -115,13 +166,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Peraturan */}
+      {/* Peraturan Sekretariatan */}
       <section className="container mx-auto px-4 mt-10 sm:mt-14 mb-16">
         <div className="flex items-center gap-2">
           <ShieldCheck className="text-cyan-300"/><h2 className="text-2xl font-semibold">Peraturan Ruang Kesekretariatan</h2>
         </div>
         <p className="text-muted mt-2 max-w-3xl">
-          Peraturan ini untuk memastikan ruang aman, nyaman, dan terpakai efisien. Pelanggaran berulang akan dibahas bersama pengurus inti.
+          Peraturan ini untuk memastikan ruang aman, nyaman, dan efisien. Pelanggaran berulang akan dibahas bersama pengurus inti.
         </p>
         <div className="card-surface mt-4 p-5">
           <ul className="grid sm:grid-cols-2 gap-3">
