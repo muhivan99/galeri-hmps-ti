@@ -10,6 +10,7 @@ export default function Nav() {
     { href: '/', label: 'Home' },
     { href: '/galeri', label: 'Galeri' },
     { href: '/kepengurusan', label: 'Kepengurusan' },
+    { href: '/about', label: 'Tentang' }
   ];
 
   const pathname = usePathname();
