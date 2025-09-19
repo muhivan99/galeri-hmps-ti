@@ -46,10 +46,6 @@ export default function AboutPage() {
     <main className="relative">
       {/* Hero */}
       <section className="container mx-auto px-4 pt-8 sm:pt-12">
-        {/* ⬇️ label diganti: Versi lengkap */}
-        <p className="text-sm text-muted flex items-center gap-2">
-          <CalendarClock className="h-4 w-4" /> Versi lengkap • mengikuti tema gelap/terang
-        </p>
 
         <h1 className="mt-2 text-3xl sm:text-4xl font-bold">
           Tentang <span className="neon-text">HMPS Teknik Informatika</span>
