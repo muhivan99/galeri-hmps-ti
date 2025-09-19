@@ -1,6 +1,4 @@
 // app/about/page.js
-'use client';
-
 import {
   Cpu, BookOpen, Building2, Server, DoorOpen, ShieldCheck, CheckCircle2, CalendarClock
 } from 'lucide-react';
@@ -43,7 +41,6 @@ export default function AboutPage() {
           Fokus kami: budaya belajar yang sustainable, eksekusi kegiatan yang rapi, dan dokumentasi yang dapat dilacak.
         </p>
 
-        {/* quick stats */}
         <div className="mt-6 grid sm:grid-cols-3 gap-3">
           {[
             { icon: <BookOpen/>, k: 'Sejarah', v: '2018–sekarang' },
@@ -61,7 +58,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline / Sejarah singkat */}
+      {/* Timeline */}
       <section className="container mx-auto px-4 mt-10 sm:mt-14">
         <h2 className="text-2xl font-semibold">Sejarah Singkat</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -118,7 +115,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Peraturan Ruang Kesekretariatan */}
+      {/* Peraturan */}
       <section className="container mx-auto px-4 mt-10 sm:mt-14 mb-16">
         <div className="flex items-center gap-2">
           <ShieldCheck className="text-cyan-300"/><h2 className="text-2xl font-semibold">Peraturan Ruang Kesekretariatan</h2>
