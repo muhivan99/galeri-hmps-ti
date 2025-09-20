@@ -11,10 +11,6 @@ export default function LecturersPage() {
     <main className="relative">
       {/* Hero */}
       <section className="container mx-auto px-4 pt-8 sm:pt-12">
-        <p className="text-sm text-muted flex items-center gap-2">
-          <Users className="h-4 w-4" />
-          Profil dosen • mengikuti tema gelap/terang
-        </p>
         <h1 className="mt-2 text-3xl sm:text-4xl font-bold">
           Dosen <span className="neon-text">Program Studi Teknik Informatika</span>
         </h1>
