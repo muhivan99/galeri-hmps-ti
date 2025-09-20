@@ -1,0 +1,40 @@
+{
+  "head": {
+    "name": "Dr. Nama Kaprodi, S.T., M.T.",
+    "title": "Kepala Program Studi",
+    "field": "Rekayasa Perangkat Lunak",
+    "photo": "/faculty/kaprodi.jpg",
+    "bio": "Fokus pada arsitektur perangkat lunak, software craftsmanship, dan tata kelola pengembangan. Mengampu RPL, Arsitektur, dan Manajemen Proyek.",
+    "email": "kaprodi@ti-kampus.ac.id"
+  },
+  "lecturers": [
+    {
+      "name": "Ir. Dosen A, M.Kom.",
+      "title": "Dosen",
+      "field": "Jaringan Komputer",
+      "photo": "/faculty/dosen-1.jpg",
+      "bio": "Riset di jaringan, keamanan, dan cloud. Pengampu Jaringan, Keamanan Jaringan."
+    },
+    {
+      "name": "Dosen B, S.Kom., M.T.",
+      "title": "Dosen",
+      "field": "Kecerdasan Buatan",
+      "photo": "/faculty/dosen-2.jpg",
+      "bio": "Minat pada machine learning & computer vision. Pengampu AI Dasar, ML Terapan."
+    },
+    {
+      "name": "Dosen C, M.Kom.",
+      "title": "Dosen",
+      "field": "Basis Data",
+      "photo": "/faculty/dosen-3.jpg",
+      "bio": "Spesialisasi database & data warehousing. Pengampu Basis Data, Big Data."
+    },
+    {
+      "name": "Dosen D, M.Kom.",
+      "title": "Dosen",
+      "field": "UI/UX & Frontend",
+      "photo": "/faculty/dosen-4.jpg",
+      "bio": "Fokus desain sistem, interaksi manusia-komputer, dan frontend modern."
+    }
+  ]
+}
